@@ -23,11 +23,11 @@ namespace MadPay724.Presentation
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-            services.AddCors();
-        }
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddControllers();
+                services.AddCors();
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -9,7 +9,12 @@ namespace MadPay724.Data.DatabaseContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Sourece=. ; Initial Catalog=MadPay724Db ;Intagrated Security=True; MultipleActiveResultSets=True;  ");
+            optionsBuilder.UseSqlServer("Data Source=. ; Initial Catalog=MadPay724Db ; Integrated Security=True; MultipleActiveResultSets=True;  ");
         }
+        public DbSet<Models.User> Users { get; set; }
+        public DbSet<Models.BankCard> BankCards { get; set; }
+        public DbSet<Models.Photo> Photos { get; set; }
+
+
     }
 }

@@ -25,9 +25,10 @@ namespace MadPay724.Data.Models
         public bool IsMain { get; set; }
 
 
-        [System.ComponentModel.DataAnnotations.Required]
-        public int UserId { get; set; }
+        //[System.ComponentModel.DataAnnotations.Required]
+        //public int UserId { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Required]
         public User User { get; set; }
     }
 }
