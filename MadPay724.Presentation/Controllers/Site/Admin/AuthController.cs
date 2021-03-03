@@ -1,4 +1,5 @@
 ﻿using MadPay724.Data.DatabaseContext;
+using MadPay724.Data.Dto.Site.Admin;
 using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.Auth.Interface;
@@ -24,26 +25,27 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             _authService = authService;
         }
 
-
-        public async Task<IActionResult> Register(string username, string password)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserForRegister userForRegister)
         {
-            username = username.ToLower();
-            if (await _db.UserRepository.UserExist(username))
+            userForRegister.UserName = userForRegister.UserName.ToLower();
+            if (await _db.UserRepository.UserExist(userForRegister.UserName))
                 return BadRequest(Resource.ErrorMessages.ExistUserMessage);
 
             var userToCreat = new User()
             {
-                UserName = username,
+                UserName = userForRegister.UserName,
                 Address = "",
                 City = "",
-                DataOfBirth = "",
-                Gender = "",
+                DataOfBirth = DateTime.Now,
+                Gender = true,
                 IsActive = true,
-                Name = "",
-                PhoneNumber = "",
                 Status = true,
+                Name= userForRegister.Name,
+                PhoneNumber=userForRegister.PhoneNumber
             };
-            var createdUser = await _authService.Register(userToCreat, password);
+
+            var createdUser = await _authService.Register(userToCreat, userForRegister.Password);
 
             return StatusCode(201);
         }
