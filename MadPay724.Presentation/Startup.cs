@@ -1,7 +1,7 @@
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Repo.Infrastructure;
-using MadPay724.Services.Auth.Interface;
-using MadPay724.Services.Auth.Service;
+using MadPay724.Services.Site.Admin.Auth.Interface;
+using MadPay724.Services.Site.Admin.Auth.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,7 +15,12 @@
     </PackageReference>
   </ItemGroup>
 <ItemGroup>
+	  <ProjectReference Include="..\MadPay724.Resource\MadPay724.Resource.csproj" />
 	  <ProjectReference Include="..\MadPay724.Services\MadPay724.Services.csproj" />
   </ItemGroup>
+<ItemGroup>
+  <Folder Include="Controllers\Api\" />
+  <Folder Include="Controllers\Site\App\" />
+</ItemGroup>
 
 </Project>
