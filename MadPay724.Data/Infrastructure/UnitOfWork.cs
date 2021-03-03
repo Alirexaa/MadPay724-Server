@@ -1,4 +1,5 @@
-﻿using MadPay724.Data.Repositories.Repo;
+﻿using MadPay724.Data.Repositories.Interface;
+using MadPay724.Data.Repositories.Repo;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,9 +18,9 @@ namespace MadPay724.Data.Infrastructure
         }
         #endregion
 
-        private UserRepository _userRepository;
+        private IUserRepository _userRepository;
 
-        public UserRepository UserRepository
+        public IUserRepository UserRepository
         {
             get
             {
