@@ -32,8 +32,8 @@ namespace MadPay724.Data.Models
         public byte[] PasswordSalt { get; set; }
 
 
-        public string   Gender { get; set; }
-        public string DataOfBirth { get; set; }
+        public bool   Gender { get; set; }
+        public DateTime DataOfBirth { get; set; }
         public string City { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required]
