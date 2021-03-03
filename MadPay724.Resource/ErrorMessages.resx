@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Error" xml:space="preserve">
+    <value>error</value>
+  </data>
   <data name="ExistUserMessage" xml:space="preserve">
-    <value>این نام کاربری وجود دارد</value>
+    <value>this UserName alredy exist !</value>
+  </data>
+  <data name="PasswordLengthMessage" xml:space="preserve">
+    <value>legnth of password most be between 8 to 16 character</value>
+  </data>
+  <data name="WrogEmailFormatMessage" xml:space="preserve">
+    <value>Email is not correct</value>
   </data>
 </root>

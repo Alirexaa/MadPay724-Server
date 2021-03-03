@@ -61,11 +61,38 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to این نام کاربری وجود دارد.
+        ///   Looks up a localized string similar to error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to this UserName alredy exist !.
         /// </summary>
         public static string ExistUserMessage {
             get {
                 return ResourceManager.GetString("ExistUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to legnth of password most be between 8 to 16 character.
+        /// </summary>
+        public static string PasswordLengthMessage {
+            get {
+                return ResourceManager.GetString("PasswordLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is not correct.
+        /// </summary>
+        public static string WrogEmailFormatMessage {
+            get {
+                return ResourceManager.GetString("WrogEmailFormatMessage", resourceCulture);
             }
         }
     }

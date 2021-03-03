@@ -1,4 +1,5 @@
-﻿using MadPay724.Data.DatabaseContext;
+﻿using MadPay724.Common.ErrorAndMessge;
+using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin;
 using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
@@ -30,7 +31,15 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         {
             userForRegister.UserName = userForRegister.UserName.ToLower();
             if (await _db.UserRepository.UserExist(userForRegister.UserName))
-                return BadRequest(Resource.ErrorMessages.ExistUserMessage);
+                return BadRequest(new ReturnMessage()
+                {
+                    Status = false,
+                    Title = Resource.ErrorMessages.Error,
+                    Message = Resource.ErrorMessages.ExistUserMessage,
+                    Code = "404"
+
+                }
+                    );
 
             var userToCreat = new User()
             {
@@ -41,8 +50,8 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 Gender = true,
                 IsActive = true,
                 Status = true,
-                Name= userForRegister.Name,
-                PhoneNumber=userForRegister.PhoneNumber
+                Name = userForRegister.Name,
+                PhoneNumber = userForRegister.PhoneNumber
             };
 
             var createdUser = await _authService.Register(userToCreat, userForRegister.Password);
@@ -50,7 +59,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             return StatusCode(201);
         }
 
-        
+
 
     }
 }
