@@ -1,6 +1,6 @@
 ﻿using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Models;
-using MadPay724.Data.Repositories.Interface;
+using MadPay724.Repo.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MadPay724.Data.Repositories.Repo
+namespace MadPay724.Repo.Repositories.Repo
 {
     public class UserRepository : Infrastructure.Repository<User> ,IUserRepository
     {

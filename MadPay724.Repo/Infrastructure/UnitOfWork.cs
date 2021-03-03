@@ -1,11 +1,11 @@
-﻿using MadPay724.Data.Repositories.Interface;
-using MadPay724.Data.Repositories.Repo;
+﻿using MadPay724.Repo.Repositories.Interface;
+using MadPay724.Repo.Repositories.Repo;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 
-namespace MadPay724.Data.Infrastructure
+namespace MadPay724.Repo.Infrastructure
 {
     public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : Microsoft.EntityFrameworkCore.DbContext, new()
     {
