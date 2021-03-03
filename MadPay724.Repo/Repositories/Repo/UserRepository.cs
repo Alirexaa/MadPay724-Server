@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MadPay724.Common.Helper;
 
 namespace MadPay724.Repo.Repositories.Repo
 {
@@ -19,5 +20,9 @@ namespace MadPay724.Repo.Repositories.Repo
             _db = _db ?? (MadpayDbContext) _db;
         }
 
+        public Task<User> UserExist(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
