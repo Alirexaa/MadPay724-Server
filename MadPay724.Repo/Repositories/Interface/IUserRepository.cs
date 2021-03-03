@@ -9,6 +9,6 @@ namespace MadPay724.Repo.Repositories.Interface
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> UserExist(User user);
+        Task<bool> UserExist(string username);
     }
 }

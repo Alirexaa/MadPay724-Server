@@ -11,18 +11,18 @@ using MadPay724.Common.Helper;
 
 namespace MadPay724.Repo.Repositories.Repo
 {
-    public class UserRepository : Infrastructure.Repository<User> ,IUserRepository
+    public class UserRepository : Infrastructure.Repository<User>, IUserRepository
     {
 
         private readonly DbContext _db;
-        public UserRepository(DbContext dbContext): base( dbContext)
+        public UserRepository(DbContext dbContext) : base(dbContext)
         {
-            _db = _db ?? (MadpayDbContext) _db;
+            _db = _db ?? (MadpayDbContext)_db;
         }
 
-        public Task<User> UserExist(User user)
+        public async Task<bool> UserExist(string username)
         {
-            throw new NotImplementedException();
+            return await GetAsync(p => p.UserName == username) != null;
         }
     }
 }
