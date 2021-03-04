@@ -4,6 +4,7 @@ using MadPay724.Data.Dto.Site.Admin;
 using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.Auth.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace MadPay724.Presentation.Controllers.Site.Admin
 {
+    [Authorize]
     [Route("site/admin/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -33,6 +35,8 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             _config = config;
         }
 
+
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
@@ -66,7 +70,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             return StatusCode(201);
         }
 
-
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
@@ -101,5 +105,32 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 token = tokenHandeler.WriteToken(token)
             });
         }
+    
+        //[HttpGet("Value")]
+        //public async Task<IActionResult> GetValue()
+        //{
+        //    return  Ok(new ReturnMessage()
+        //    {
+        //        Status = false,
+        //        Title = Resource.ErrorMessages.Error,
+        //        Message = "",
+        //        Code = "400"
+
+        //    });
+        //}
+
+        //[AllowAnonymous]
+        //[HttpGet("Values")]
+        //public async Task<IActionResult> GetValues()
+        //{
+        //    return Ok(new ReturnMessage()
+        //    {
+        //        Status = false,
+        //        Title = Resource.ErrorMessages.Error,
+        //        Message = "",
+        //        Code = "400"
+
+        //    });
+        //}
     }
 }
