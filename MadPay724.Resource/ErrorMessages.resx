@@ -129,4 +129,7 @@
   <data name="WrogEmailFormatMessage" xml:space="preserve">
     <value>Email is not correct</value>
   </data>
+  <data name="WrongEmailOrPassword" xml:space="preserve">
+    <value>username or password is wrong !</value>
+  </data>
 </root>

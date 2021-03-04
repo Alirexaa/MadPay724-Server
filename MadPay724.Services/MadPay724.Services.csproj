@@ -9,6 +9,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Api\" />
-	  <Folder Include="Site\Admin\" />
+	  <Folder Include="Site\App\" />
 	</ItemGroup>
 </Project>

@@ -95,5 +95,14 @@ namespace MadPay724.Resource {
                 return ResourceManager.GetString("WrogEmailFormatMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to username or password is wrong !.
+        /// </summary>
+        public static string WrongEmailOrPassword {
+            get {
+                return ResourceManager.GetString("WrongEmailOrPassword", resourceCulture);
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MadPay724.Data.Dto.Site.Admin
 {
-    public class UserForRegister
+    public class UserForRegisterDto
     {
         [Required]
         [EmailAddress(ErrorMessageResourceName = "WrogEmailFormatMessage", ErrorMessageResourceType =typeof(Resource.ErrorMessages))]
