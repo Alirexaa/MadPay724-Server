@@ -13,6 +13,6 @@ namespace MadPay724.Data.Dto.Site.Admin
 
         [Required]
         public string Password { get; set; }
-        public bool IsRemmeber { get; set; }
+        public bool IsRemember { get; set; }
     }
 }

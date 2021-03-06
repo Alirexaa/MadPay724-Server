@@ -95,7 +95,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             var tokenDes = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = userForLoginDto.IsRemmeber ? DateTime.Now.AddDays(1) : DateTime.Now.AddHours(2),
+                Expires = userForLoginDto.IsRemember ? DateTime.Now.AddDays(1) : DateTime.Now.AddHours(2),
                 SigningCredentials = creds
             };
             var tokenHandeler = new JwtSecurityTokenHandler();
