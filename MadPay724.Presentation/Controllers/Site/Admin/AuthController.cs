@@ -35,19 +35,19 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             _config = config;
         }
 
-
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
             userForRegister.UserName = userForRegister.UserName.ToLower();
             if (await _db.UserRepository.UserExist(userForRegister.UserName))
-                return BadRequest(new ReturnMessage()
+                return StatusCode(409, new ReturnMessage()
                 {
                     Status = false,
                     Title = Resource.ErrorMessages.Error,
                     Message = Resource.ErrorMessages.ExistUserMessage,
-                    Code = "400"
+                    Code = "409"
 
                 }
                     );
