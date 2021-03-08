@@ -74,6 +74,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
+
             var userFromRepo = await _authService.Login(userForLoginDto.UserName, userForLoginDto.Password);
             if (userFromRepo == null)
                 return Unauthorized(new ReturnMessage()
@@ -81,7 +82,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                     Status = false,
                     Title = Resource.ErrorMessages.Error,
                     Message = Resource.ErrorMessages.WrongEmailOrPassword,
-                    Code = "400"
+                    Code = "401"
 
                 });
 
@@ -105,7 +106,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 token = tokenHandeler.WriteToken(token)
             });
         }
-    
+
         //[HttpGet("Value")]
         //public async Task<IActionResult> GetValue()
         //{

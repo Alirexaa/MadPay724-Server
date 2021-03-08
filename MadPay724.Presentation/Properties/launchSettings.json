@@ -14,7 +14,7 @@
       "launchBrowser": false,
       "launchUrl": "value",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
     "MadPay724.Presentation": {
@@ -23,7 +23,7 @@
       "launchUrl": "value",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     }
   }
