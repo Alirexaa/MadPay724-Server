@@ -14,6 +14,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace MadPay724.Presentation
 {
@@ -45,6 +48,30 @@ namespace MadPay724.Presentation
                 };
 
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("SiteApi", new OpenApiInfo { Title = "Site Api", Version = "v1" });
+                c.SwaggerDoc("PayApi", new OpenApiInfo { Title = "Pay Api", Contact = new OpenApiContact { Name = "Alireza", Email = "Alireza@gmail.com" }, Description = "Api for online payment", Version = "v1" });
+                c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}.",
+                   
+
+                });
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    new OpenApiSecurityScheme{
+                //    Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme }
+
+                //    }
+                //});  
+
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +105,12 @@ namespace MadPay724.Presentation
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("SiteApi/swagger.json", "Site Api v1");
+                c.SwaggerEndpoint("PayApi/swagger.json", "Pay Api v1");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

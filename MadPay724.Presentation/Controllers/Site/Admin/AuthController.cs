@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace MadPay724.Presentation.Controllers.Site.Admin
 {
+    [ApiExplorerSettings(GroupName ="SiteApi")]
     [Authorize]
     [Route("site/admin/[controller]")]
     [ApiController]
@@ -36,6 +37,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         }
 
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
@@ -107,18 +109,18 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             });
         }
 
-        //[HttpGet("Value")]
-        //public async Task<IActionResult> GetValue()
-        //{
-        //    return  Ok(new ReturnMessage()
-        //    {
-        //        Status = false,
-        //        Title = Resource.ErrorMessages.Error,
-        //        Message = "",
-        //        Code = "400"
+        [HttpGet("Value")]
+        public async Task<IActionResult> GetValue()
+        {
+            return Ok(new ReturnMessage()
+            {
+                Status = false,
+                Title = Resource.ErrorMessages.Error,
+                Message = "",
+                Code = "400"
 
-        //    });
-        //}
+            });
+        }
 
         //[AllowAnonymous]
         //[HttpGet("Values")]
