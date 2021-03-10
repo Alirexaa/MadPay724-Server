@@ -15,7 +15,7 @@ namespace MadPay724.Data.Models
 
 
         [Required]
-        [StringLength(maximumLength: 0, MinimumLength = 100)]
+        [StringLength(maximumLength: 100, MinimumLength = 0)]
         public string Name { get; set; }
        
         
@@ -24,12 +24,12 @@ namespace MadPay724.Data.Models
 
         
         [Required]
-        [StringLength(maximumLength: 0, MinimumLength = 500)]
+        [StringLength(maximumLength: 500, MinimumLength = 0)]
         public string Address { get; set; }
 
         
         [Required]
-        [StringLength(maximumLength: 0, MinimumLength = 100)]
+        [StringLength(maximumLength: 100, MinimumLength = 0)]
         public string PhoneNumber { get; set; }
 
         [Required]

@@ -13,17 +13,17 @@ namespace MadPay724.Data.Models
         }
 
         [Required]
-        [StringLength(maximumLength:0,MinimumLength =50)]
+        [StringLength(maximumLength: 50, MinimumLength = 0)]
         public string BankName { get; set; }
 
 
         
         [Required]
-        [StringLength(maximumLength:0,MinimumLength =100)]
+        [StringLength(maximumLength: 100, MinimumLength = 0)]
         public string OwnerName { get; set; }
 
 
-        [StringLength(maximumLength: 0, MinimumLength = 50)]
+        [StringLength(maximumLength: 50, MinimumLength = 0)]
         public string Shaba { get; set; }
         
         [Required]
