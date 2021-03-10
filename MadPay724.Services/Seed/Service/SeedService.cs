@@ -1,0 +1,58 @@
+﻿using MadPay724.Common.Helper;
+using MadPay724.Data.DatabaseContext;
+using MadPay724.Data.Models;
+using MadPay724.Repo.Infrastructure;
+using MadPay724.Services.Seed.Interface;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MadPay724.Services.Seed.Service
+{
+
+    public class SeedService : ISeedService
+    {
+        private readonly IUnitOfWork<MadpayDbContext> _db;
+        public SeedService(IUnitOfWork<MadpayDbContext> dbContext)
+        {
+            _db = dbContext;
+        }
+
+        public void SeedUsers()
+        {
+            var userData = System.IO.File.ReadAllText("Files/Json/Seed/UserSeedData.json");
+            var users = JsonConvert.DeserializeObject<List<User>>(userData);
+
+            foreach (var user in users)
+            {
+                byte[] passwordHash, passwordSalt;
+                Utilities.CreatePasswordHash("123456789", out passwordHash, out passwordSalt);
+                user.UserName = user.UserName.ToLower().Trim();
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+
+                _db.UserRepository.Insert(user);
+            }
+            _db.Save();
+        }
+
+        public async Task SeedUsersAsync()
+        {
+            var userData = System.IO.File.ReadAllText("Files/Json/Seed/UserSeedData.json");
+            var users = JsonConvert.DeserializeObject<List<User>>(userData);
+
+            foreach (var user in users)
+            {
+                byte[] passwordHash, passwordSalt;
+                Utilities.CreatePasswordHash("123456789",out passwordHash,out passwordSalt);
+                user.UserName = user.UserName.ToLower().Trim();
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                await _db.UserRepository.InsertAsync(user);
+            }
+            await _db.SaveAsync();
+        }
+    }
+}
+

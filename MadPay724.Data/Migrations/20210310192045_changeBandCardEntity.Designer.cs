@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MadPay724.Data.Migrations
 {
     [DbContext(typeof(MadpayDbContext))]
-    [Migration("20210303195139_changeUserPropGender")]
-    partial class changeUserPropGender
+    [Migration("20210310192045_changeBandCardEntity")]
+    partial class changeBandCardEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,18 +38,22 @@ namespace MadPay724.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ExpiredDateMonth")
+                    b.Property<string>("ExpireDateMonth")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
-                    b.Property<string>("ExpiredDateYear")
+                    b.Property<string>("ExpireDateYear")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Shaba")
                         .HasColumnType("nvarchar(max)");
@@ -124,6 +128,9 @@ namespace MadPay724.Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("LastActive")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -169,7 +176,7 @@ namespace MadPay724.Data.Migrations
             modelBuilder.Entity("MadPay724.Data.Models.Photo", b =>
                 {
                     b.HasOne("MadPay724.Data.Models.User", "User")
-                        .WithMany("Phohos")
+                        .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -181,7 +188,7 @@ namespace MadPay724.Data.Migrations
                 {
                     b.Navigation("BankCards");
 
-                    b.Navigation("Phohos");
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

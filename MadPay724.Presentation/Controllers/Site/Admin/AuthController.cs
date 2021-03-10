@@ -109,18 +109,18 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             });
         }
 
-        [HttpGet("Value")]
-        public async Task<IActionResult> GetValue()
-        {
-            return Ok(new ReturnMessage()
-            {
-                Status = false,
-                Title = Resource.ErrorMessages.Error,
-                Message = "",
-                Code = "400"
+        //[HttpGet("Value")]
+        //public async Task<IActionResult> GetValue()
+        //{
+        //    return Ok(new ReturnMessage()
+        //    {
+        //        Status = false,
+        //        Title = Resource.ErrorMessages.Error,
+        //        Message = "",
+        //        Code = "400"
 
-            });
-        }
+        //    });
+        //}
 
         //[AllowAnonymous]
         //[HttpGet("Values")]

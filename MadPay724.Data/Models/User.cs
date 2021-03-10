@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.ComponentModel.DataAnnotations;
 namespace MadPay724.Data.Models
 {
     public class User:BaseEntity<string>
@@ -13,36 +12,46 @@ namespace MadPay724.Data.Models
             ModifiedDate = DateTime.Now;
 
         }
-        [System.ComponentModel.DataAnnotations.Required]
+
+
+        [Required]
+        [StringLength(maximumLength: 0, MinimumLength = 100)]
         public string Name { get; set; }
+       
         
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public string UserName { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        
+        [Required]
+        [StringLength(maximumLength: 0, MinimumLength = 500)]
         public string Address { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        
+        [Required]
+        [StringLength(maximumLength: 0, MinimumLength = 100)]
         public string PhoneNumber { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public byte[] PasswordHash { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public byte[] PasswordSalt { get; set; }
 
 
         public bool   Gender { get; set; }
         public DateTime DataOfBirth { get; set; }
+        public DateTime LastActive { get; set; }
+
         public string City { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public bool IsActive { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public bool Status { get; set; }
 
-        public ICollection<Photo> Phohos { get; set; }
+        public ICollection<Photo> Photos { get; set; }
         public ICollection<BankCard> BankCards { get; set; }
 
     }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+using System.ComponentModel.DataAnnotations;
 namespace MadPay724.Data.Models
 {
     public class Photo : BaseEntity<string>
@@ -13,22 +11,25 @@ namespace MadPay724.Data.Models
             ModifiedDate = DateTime.Now;
 
         }
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
+        [StringLength(maximumLength: 0, MinimumLength = 100)]
         public string Url { get; set; }
 
+        [StringLength(maximumLength: 0, MinimumLength = 500)]
         public string Description { get; set; }
 
+        [StringLength(maximumLength: 0, MinimumLength = 500)]
         public string Alt { get; set; }
 
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public bool IsMain { get; set; }
 
 
         //[System.ComponentModel.DataAnnotations.Required]
         //public int UserId { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
+        [Required]
         public User User { get; set; }
     }
 }

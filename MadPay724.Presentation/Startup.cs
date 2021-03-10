@@ -15,8 +15,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using MadPay724.Services.Seed.Interface;
 using System.Linq;
 using System.Collections.Generic;
+using MadPay724.Services.Seed.Service;
 
 namespace MadPay724.Presentation
 {
@@ -32,6 +34,7 @@ namespace MadPay724.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISeedService, SeedService>();
             services.AddControllers();
             services.AddCors();
             services.AddScoped<IUnitOfWork<MadpayDbContext>, UnitOfWork<MadpayDbContext>>();
@@ -75,7 +78,7 @@ namespace MadPay724.Presentation
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ISeedService seeder)
         {
             if (env.IsDevelopment())
             {
@@ -98,6 +101,7 @@ namespace MadPay724.Presentation
                 });
             }
 
+            //seeder.SeedUsers();
             app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();

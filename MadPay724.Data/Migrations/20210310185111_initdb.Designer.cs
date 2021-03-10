@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MadPay724.Data.Migrations
 {
     [DbContext(typeof(MadpayDbContext))]
-    [Migration("20210303194726_changeUserProp")]
-    partial class changeUserProp
+    [Migration("20210310185111_initdb")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,10 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Shaba")
                         .HasColumnType("nvarchar(max)");
@@ -118,11 +122,14 @@ namespace MadPay724.Data.Migrations
                     b.Property<DateTime>("DataOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastActive")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -169,7 +176,7 @@ namespace MadPay724.Data.Migrations
             modelBuilder.Entity("MadPay724.Data.Models.Photo", b =>
                 {
                     b.HasOne("MadPay724.Data.Models.User", "User")
-                        .WithMany("Phohos")
+                        .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -181,7 +188,7 @@ namespace MadPay724.Data.Migrations
                 {
                     b.Navigation("BankCards");
 
-                    b.Navigation("Phohos");
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
