@@ -23,7 +23,7 @@ namespace MadPay724.Repo.Infrastructure
         System.Threading.Tasks.Task InsertAsync(TEntity entity);
 
         System.Threading.Tasks.Task<TEntity> GetByIdAsync(object Id);
-        System.Threading.Tasks.Task<IEnumerable <TEntity>> GetAllAsync(TEntity entity);
+        System.Threading.Tasks.Task<IEnumerable <TEntity>> GetAllAsync();
         System.Threading.Tasks.Task<IEnumerable<TEntity>> GetManyAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> where);
         System.Threading.Tasks.Task<TEntity> GetAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> where);
 

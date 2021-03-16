@@ -100,7 +100,7 @@ namespace MadPay724.Repo.Infrastructure
             return await _dbSet.FindAsync(Id);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(TEntity entity)
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }

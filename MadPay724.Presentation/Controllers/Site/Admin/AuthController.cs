@@ -1,6 +1,6 @@
 ﻿using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Data.DatabaseContext;
-using MadPay724.Data.Dto.Site.Admin;
+using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.Auth.Interface;
@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace MadPay724.Presentation.Controllers.Site.Admin
 {
-    [ApiExplorerSettings(GroupName ="SiteApi")]
+    [ApiExplorerSettings(GroupName = "SiteApi")]
     [Authorize]
     [Route("site/admin/[controller]")]
     [ApiController]
@@ -109,31 +109,31 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             });
         }
 
-        //[HttpGet("Value")]
-        //public async Task<IActionResult> GetValue()
-        //{
-        //    return Ok(new ReturnMessage()
-        //    {
-        //        Status = false,
-        //        Title = Resource.ErrorMessages.Error,
-        //        Message = "",
-        //        Code = "400"
+        [HttpGet("Value")]
+        public async Task<IActionResult> GetValue()
+        {
+            return Ok(new ReturnMessage()
+            {
+                Status = false,
+                Title = Resource.ErrorMessages.Error,
+                Message = "",
+                Code = "400"
 
-        //    });
-        //}
+            });
+        }
 
-        //[AllowAnonymous]
-        //[HttpGet("Values")]
-        //public async Task<IActionResult> GetValues()
-        //{
-        //    return Ok(new ReturnMessage()
-        //    {
-        //        Status = false,
-        //        Title = Resource.ErrorMessages.Error,
-        //        Message = "",
-        //        Code = "400"
+        [AllowAnonymous]
+        [HttpGet("Values")]
+        public async Task<IActionResult> GetValues()
+        {
+            return Ok(new ReturnMessage()
+            {
+                Status = false,
+                Title = Resource.ErrorMessages.Error,
+                Message = "",
+                Code = "400"
 
-        //    });
-        //}
+            });
+        }
     }
 }

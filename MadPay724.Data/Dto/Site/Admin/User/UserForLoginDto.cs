@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace MadPay724.Data.Dto.Site.Admin
+namespace MadPay724.Data.Dto.Site.Admin.User
 {
     public class UserForLoginDto
     {
