@@ -12,5 +12,9 @@ namespace MadPay724.Data.Dto.Site.Admin.User
 
         public string UserName { get; set; }
 
+        public ICollection<PhotoForUserDetailDto> Photos { get; set; }
+
+        public ICollection<BankCardForUserDetailDto> BankCards { get; set; }
+
     }
 }

@@ -40,7 +40,7 @@ namespace MadPay724.Data.Models
 
 
         public bool   Gender { get; set; }
-        public DateTime DataOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public DateTime LastActive { get; set; }
 
         public string City { get; set; }

@@ -59,7 +59,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 UserName = userForRegister.UserName,
                 Address = "",
                 City = "",
-                DataOfBirth = DateTime.Now,
+                DateOfBirth = DateTime.Now,
                 Gender = true,
                 IsActive = true,
                 Status = true,

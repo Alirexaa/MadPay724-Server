@@ -28,15 +28,15 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _db.UserRepository.GetAllAsync();
+            var users = await _db.UserRepository.GetManyAsync(null, null, "BankCards,Photos");
             var usersToReturn = _mapper.Map<IEnumerable<UsersListDto>>(users);
             return Ok(usersToReturn);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
-            var user = await _db.UserRepository.GetByIdAsync(id);
-            var userToRetun = _mapper.Map<UserDetailDto>(user);
+            var user = await _db.UserRepository.GetManyAsync(p=>p.Id==id,null,"Photos");
+            var userToRetun = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
             return Ok(userToRetun);
         }
     }

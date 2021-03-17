@@ -18,11 +18,9 @@ namespace MadPay724.Data.Dto.Site.Admin.User
 
         public bool Gender { get; set; }
 
-        public DateTime DataOfBirth { get; set; }
+        public string Age { get; set; }
 
         public DateTime LastActive { get; set; }
-
-        public string City { get; set; }
 
         public string PhotoUrl { get; set; }
 
