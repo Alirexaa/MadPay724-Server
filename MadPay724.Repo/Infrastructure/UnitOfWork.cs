@@ -32,18 +32,23 @@ namespace MadPay724.Repo.Infrastructure
             }
         }
 
-        
+
 
         #region save
-        public void Save()
+        public bool Save()
         {
-            _db.SaveChanges();
+            if (_db.SaveChanges() > 0)
+                return true;
+            else return false;
 
         }
 
-        public async System.Threading.Tasks.Task<int> SaveAsync()
+        public async System.Threading.Tasks.Task<bool> SaveAsync()
         {
-            return await _db.SaveChangesAsync();
+            if (await _db.SaveChangesAsync() > 0)
+                return true;
+            else return false;
+
         }
 
         #endregion
@@ -51,7 +56,7 @@ namespace MadPay724.Repo.Infrastructure
         #region dispose
         private bool disposed = false;
 
-       
+
 
         protected virtual void Dispose(bool disposing)
         {

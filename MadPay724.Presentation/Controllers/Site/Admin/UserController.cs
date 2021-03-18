@@ -42,6 +42,32 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             return Ok(userToRetun);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(string id,UserForUpdateDto userForUpdate)
+        {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
+            {
+               var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
+                _mapper.Map(userForUpdate, userFromRepo);
+                _db.UserRepository.Update(userFromRepo);
+                if (await _db.SaveAsync())
+                {
+                    return Ok();
+
+                }
+                else
+                {
+                    return StatusCode(406);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
 
 
         //[ProducesResponseType(StatusCodes.Status200OK)]

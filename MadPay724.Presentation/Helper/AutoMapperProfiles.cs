@@ -24,6 +24,7 @@ namespace MadPay724.Presentation.Helper
             CreateMap<User, UsersListDto>();
             CreateMap<Photo, PhotoForUserDetailDto>();
             CreateMap<BankCard, BankCardForUserDetailDto>();
+            CreateMap<UserForUpdateDto, User>();
         }
 
     }
