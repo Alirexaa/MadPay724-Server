@@ -19,6 +19,8 @@ using MadPay724.Services.Seed.Interface;
 using System.Linq;
 using System.Collections.Generic;
 using MadPay724.Services.Seed.Service;
+using MadPay724.Services.Site.Admin.UserServices.Interface;
+using MadPay724.Services.Site.Admin.UserServices.Service;
 
 namespace MadPay724.Presentation
 {
@@ -40,6 +42,7 @@ namespace MadPay724.Presentation
             services.AddCors();
             services.AddScoped<IUnitOfWork<MadpayDbContext>, UnitOfWork<MadpayDbContext>>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
             {

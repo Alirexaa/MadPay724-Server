@@ -79,6 +79,15 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to password dos not changed !.
+        /// </summary>
+        public static string NoChangedPassword {
+            get {
+                return ResourceManager.GetString("NoChangedPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to legnth of password most be between 8 to 16 character.
         /// </summary>
         public static string PasswordLengthMessage {
@@ -102,6 +111,15 @@ namespace MadPay724.Resource {
         public static string WrongEmailOrPassword {
             get {
                 return ResourceManager.GetString("WrongEmailOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to password is wong !.
+        /// </summary>
+        public static string WrongPassword {
+            get {
+                return ResourceManager.GetString("WrongPassword", resourceCulture);
             }
         }
     }

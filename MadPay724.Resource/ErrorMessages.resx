@@ -123,6 +123,9 @@
   <data name="ExistUserMessage" xml:space="preserve">
     <value>this UserName alredy exist !</value>
   </data>
+  <data name="NoChangedPassword" xml:space="preserve">
+    <value>password dos not changed !</value>
+  </data>
   <data name="PasswordLengthMessage" xml:space="preserve">
     <value>legnth of password most be between 8 to 16 character</value>
   </data>
@@ -131,5 +134,8 @@
   </data>
   <data name="WrongEmailOrPassword" xml:space="preserve">
     <value>username or password is wrong !</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>password is wong !</value>
   </data>
 </root>

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using MadPay724.Common.Helper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
+using MadPay724.Services.Site.Admin.UserServices.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +24,12 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
     {
         private readonly IUnitOfWork<MadpayDbContext> _db;
         private readonly IMapper _mapper;
-        public UserController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper)
+        private readonly IUserService _userService;
+        public UserController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper,IUserService userService)
         {
             _db = dbContext;
             _mapper = mapper;
+            _userService = userService;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -67,6 +71,35 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             {
                 return Unauthorized();
             }
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("ChangeUserPassword/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> ChangeUserPassword(string id,PasswordForChangeDto passwordForChangeDto)
+        {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
+            {
+                var userFromReo = await _userService.GetUserForChangingPassword(id, passwordForChangeDto.OldPassword);
+                if (userFromReo == null)
+                {
+                    return BadRequest(Resource.ErrorMessages.WrongPassword);
+                }
+
+                var result = await _userService.UpdateUserPassword(userFromReo, passwordForChangeDto.NewPassword);
+
+                if (result)
+                    return Ok(Resource.InformationMessages.ChangedPassword);
+                else return BadRequest(Resource.ErrorMessages.NoChangedPassword); 
+            }
+            else
+            {
+                return Unauthorized();
+            }
+          
         }
 
 

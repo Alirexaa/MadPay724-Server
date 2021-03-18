@@ -23,7 +23,7 @@
       <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="InformationMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
