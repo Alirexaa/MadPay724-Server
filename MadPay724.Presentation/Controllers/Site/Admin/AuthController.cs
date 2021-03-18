@@ -108,32 +108,5 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 token = tokenHandeler.WriteToken(token)
             });
         }
-
-        [HttpGet("Value")]
-        public async Task<IActionResult> GetValue()
-        {
-            return Ok(new ReturnMessage()
-            {
-                Status = false,
-                Title = Resource.ErrorMessages.Error,
-                Message = "",
-                Code = "400"
-
-            });
-        }
-
-        [AllowAnonymous]
-        [HttpGet("Values")]
-        public async Task<IActionResult> GetValues()
-        {
-            return Ok(new ReturnMessage()
-            {
-                Status = false,
-                Title = Resource.ErrorMessages.Error,
-                Message = "",
-                Code = "400"
-
-            });
-        }
     }
 }

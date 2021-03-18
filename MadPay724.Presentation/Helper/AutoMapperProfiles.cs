@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MadPay724.Common.Helper;
+using MadPay724.Data.Dto.Site.Admin.BankCard;
+using MadPay724.Data.Dto.Site.Admin.Photo;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
 
