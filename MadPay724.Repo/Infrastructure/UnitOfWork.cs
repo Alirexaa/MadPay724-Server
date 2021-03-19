@@ -17,9 +17,9 @@ namespace MadPay724.Repo.Infrastructure
             _db = new TContext();
         }
         #endregion
-
+        #region private repository
         private IUserRepository _userRepository;
-
+        private IPhotoRepository _photoRepository;
         public IUserRepository UserRepository
         {
             get
@@ -32,6 +32,18 @@ namespace MadPay724.Repo.Infrastructure
             }
         }
 
+        public IPhotoRepository PhotoRepository
+        {
+            get
+            {
+                if (_photoRepository == null)
+                {
+                    _photoRepository = new PhotoRepository(_db);
+                }
+                return _photoRepository;
+            }
+        }
+        #endregion
 
 
         #region save

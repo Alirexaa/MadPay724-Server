@@ -12,14 +12,14 @@ namespace MadPay724.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
-                    DataOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastActive = table.Column<DateTime>(type: "datetime2", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -37,12 +37,12 @@ namespace MadPay724.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shaba = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Shaba = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CardNumber = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    ExpiredDateMonth = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    ExpiredDateYear = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    ExpireDateMonth = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    ExpireDateYear = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -63,11 +63,12 @@ namespace MadPay724.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Alt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Alt = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     IsMain = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

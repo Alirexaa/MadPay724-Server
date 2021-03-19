@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MadPay724.Data.Migrations
 {
     [DbContext(typeof(MadpayDbContext))]
-    [Migration("20210310185111_initdb")]
+    [Migration("20210319121627_initdb")]
     partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,8 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("BankName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
@@ -38,12 +39,12 @@ namespace MadPay724.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ExpiredDateMonth")
+                    b.Property<string>("ExpireDateMonth")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
-                    b.Property<string>("ExpiredDateYear")
+                    b.Property<string>("ExpireDateYear")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
@@ -53,10 +54,12 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("OwnerName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Shaba")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -75,13 +78,15 @@ namespace MadPay724.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Alt")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
@@ -89,9 +94,13 @@ namespace MadPay724.Data.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -111,7 +120,8 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -119,7 +129,7 @@ namespace MadPay724.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataOfBirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Gender")
@@ -136,7 +146,8 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -148,7 +159,8 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MadPay724.Data.Models
 {
     public class BankCard :BaseEntity<string>
@@ -38,12 +40,11 @@ namespace MadPay724.Data.Models
         [StringLength(maximumLength: 2, MinimumLength = 2)]
         public string ExpireDateYear { get; set; }
 
-       
-        
-        //[System.ComponentModel.DataAnnotations.Required]
-        //public int UserId { get; set; }
+
 
         [Required]
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }
