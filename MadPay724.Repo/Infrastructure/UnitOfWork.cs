@@ -20,6 +20,7 @@ namespace MadPay724.Repo.Infrastructure
         #region private repository
         private IUserRepository _userRepository;
         private IPhotoRepository _photoRepository;
+        private ISettingRepository _settingRepository;
         public IUserRepository UserRepository
         {
             get
@@ -43,6 +44,20 @@ namespace MadPay724.Repo.Infrastructure
                 return _photoRepository;
             }
         }
+
+        public ISettingRepository SettingRepository
+        {
+            get
+            {
+                if (_settingRepository == null)
+                {
+                    _settingRepository = new SettingRepository(_db);
+                }
+                return _settingRepository;
+            }
+        }
+
+
         #endregion
 
 
