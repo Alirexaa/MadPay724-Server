@@ -31,5 +31,7 @@ namespace MadPay724.Data.Models
 
         [Required]
         public User User { get; set; }
+
+        public string PublicId { get; set; }
     }
 }
