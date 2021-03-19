@@ -54,7 +54,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 }
                     );
 
-            var userToCreat = new User()
+            var userToCreate = new User()
             {
                 UserName = userForRegister.UserName,
                 Address = "",
@@ -67,7 +67,17 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 PhoneNumber = userForRegister.PhoneNumber
             };
 
-            var createdUser = await _authService.Register(userToCreat, userForRegister.Password);
+            var photoToCreate = new Photo()
+            {
+                UserId =userToCreate.Id,
+                Description= "Profile Pic",
+                Alt= "Profile Pic",
+                IsMain= true,
+                Url= string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}/Files/Images/ProfilePic.png"),
+                PublicId="0",
+            };
+
+            var createdUser = await _authService.Register(userToCreate, photoToCreate, userForRegister.Password);
 
             return StatusCode(201);
         }

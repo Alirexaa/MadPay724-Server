@@ -20,7 +20,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
 {
     [ApiExplorerSettings(GroupName = "SiteApi")]
     [Authorize]
-    [Route("site/admin/{userId}/photos")]
+    [Route("site/admin/users/{userId}/photos")]
     [ApiController]
     public class PhotoController : ControllerBase
     {
@@ -44,15 +44,14 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeUserPhoto(string userId,[FromForm] PhotoForUserProfileDto photoForUserProfileDto)
+        public async Task<IActionResult> ChangeUserPhoto(string userId,[FromForm] PhotoFromUserProfileDto photoFromUserProfileDto)
         {
             if(User.FindFirst(ClaimTypes.NameIdentifier).Value != userId)
             {
                return Unauthorized();
             }
 
-
-            var file = photoForUserProfileDto.File;
+            var file = photoFromUserProfileDto.File;
 
             var uploadResult = new ImageUploadResult();
 
@@ -69,24 +68,40 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 }
             }
 
-            photoForUserProfileDto.Url = uploadResult.Url.ToString();
-            photoForUserProfileDto.PublicId = uploadResult.PublicId;
+            photoFromUserProfileDto.Url = uploadResult.Url.ToString();
+            photoFromUserProfileDto.PublicId = uploadResult.PublicId;
 
-            var photo = _mapper.Map<Photo>(photoForUserProfileDto);
-            photo.UserId = userId;
+            var photoFromRepository = await _db.PhotoRepository.GetAsync(p => p.UserId == userId && p.IsMain == true);
 
-            await _db.PhotoRepository.InsertAsync(photo);
+            //Delete image if it exist in Cloudinary
+            if(photoFromRepository.PublicId !=null && photoFromRepository.PublicId != "0")
+            {
+                var deleteParams = new DeletionParams(photoFromRepository.PublicId);
+                var deleteResult = _clodinary.Destroy(deleteParams);
+            }
+
+             _mapper.Map(photoFromUserProfileDto, photoFromRepository);
+
+             _db.PhotoRepository.Update(photoFromRepository);
 
             if(await _db.SaveAsync())
             {
-                return Ok();
+                var photoForReturn = _mapper.Map<PhotoForReturnUserProfileDto>(photoFromRepository);
+                return CreatedAtRoute("GetPhoto",routeValues: new {id= photoFromRepository.Id },value: photoForReturn);
             }
             else
             {
                 return BadRequest();
             }
-            
+        }
 
+        [HttpGet("{id}",Name = "GetPhoto")]
+        public async Task<IActionResult> GetPhoto(string id)
+        {
+            var photoFromRepository = await _db.PhotoRepository.GetByIdAsync(id);
+            var photo = _mapper.Map<PhotoForReturnUserProfileDto>(photoFromRepository);
+
+            return Ok(photo);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MadPay724.Data.Dto.Site.Admin.Photo
 {
-    public class PhotoForUserProfileDto
+    public class PhotoFromUserProfileDto
     {
         public string Url { get; set; }
         public IFormFile File { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MadPay724.Data.Dto.Site.Admin.Photo
 {
-    public class PhotoForRetunUserProfile
+    public class PhotoForReturnUserProfileDto
     {
 
         public string Url { get; set; }

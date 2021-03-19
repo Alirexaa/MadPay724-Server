@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using MadPay724.Services.Seed.Service;
 using MadPay724.Services.Site.Admin.UserServices.Interface;
 using MadPay724.Services.Site.Admin.UserServices.Service;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace MadPay724.Presentation
 {
@@ -37,7 +39,8 @@ namespace MadPay724.Presentation
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddMvc(opt => opt.EnableEndpointRouting = false);
+            //services.AddControllers();
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(Startup));
@@ -121,10 +124,21 @@ namespace MadPay724.Presentation
                 c.SwaggerEndpoint("SiteApi/swagger.json", "Site Api v1");
                 c.SwaggerEndpoint("PayApi/swagger.json", "Pay Api v1");
             });
-            app.UseEndpoints(endpoints =>
+
+
+            app.UseStaticFiles(new StaticFileOptions()
             {
-                endpoints.MapControllers();
+                FileProvider= new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),@"Files")),
+                RequestPath= new PathString("/Files")
+
             });
+
+            app.UseMvc();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
