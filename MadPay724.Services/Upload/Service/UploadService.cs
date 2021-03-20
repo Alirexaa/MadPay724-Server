@@ -62,7 +62,7 @@ namespace MadPay724.Services.Upload.Service
                         Status = true,
                         Message = Resource.InformationMessages.FileUploadSuccess,
                         PublicId = "0",
-                        Url = string.Format($"{baseUrl}/wwwroot/Files/Images/{newFileName}"),
+                        Url = string.Format($"{baseUrl}/wwwroot/Files/Images/Profiles/{newFileName}"),
 
                     };
                 }
