@@ -68,5 +68,14 @@ namespace MadPay724.Resource {
                 return ResourceManager.GetString("ChangedPassword", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to file upldate successfuly.
+        /// </summary>
+        public static string FileUploadSuccess {
+            get {
+                return ResourceManager.GetString("FileUploadSuccess", resourceCulture);
+            }
+        }
     }
 }

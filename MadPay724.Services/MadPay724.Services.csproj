@@ -11,4 +11,7 @@
 	  <Folder Include="Api\" />
 	  <Folder Include="Site\App\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="CloudinaryDotNet" Version="1.15.0" />
+	</ItemGroup>
 </Project>

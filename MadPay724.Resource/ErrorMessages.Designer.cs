@@ -88,6 +88,15 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to there is no file to upload.
+        /// </summary>
+        public static string NotExistFile {
+            get {
+                return ResourceManager.GetString("NotExistFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to legnth of password most be between 8 to 16 character.
         /// </summary>
         public static string PasswordLengthMessage {

@@ -126,6 +126,9 @@
   <data name="NoChangedPassword" xml:space="preserve">
     <value>password dos not changed !</value>
   </data>
+  <data name="NotExistFile" xml:space="preserve">
+    <value>there is no file to upload</value>
+  </data>
   <data name="PasswordLengthMessage" xml:space="preserve">
     <value>legnth of password most be between 8 to 16 character</value>
   </data>
