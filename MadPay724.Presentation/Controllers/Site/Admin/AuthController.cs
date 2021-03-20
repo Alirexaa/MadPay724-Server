@@ -73,7 +73,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 Description= "Profile Pic",
                 Alt= "Profile Pic",
                 IsMain= true,
-                Url= string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}/Files/Images/ProfilePic.png"),
+                Url= string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}/wwwroot/Files/Images/ProfilePic.png"),
                 PublicId="0",
             };
 

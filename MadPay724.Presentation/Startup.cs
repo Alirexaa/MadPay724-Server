@@ -23,6 +23,8 @@ using MadPay724.Services.Site.Admin.UserServices.Interface;
 using MadPay724.Services.Site.Admin.UserServices.Service;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using MadPay724.Services.Upload.Interface;
+using MadPay724.Services.Upload.Service;
 
 namespace MadPay724.Presentation
 {
@@ -48,6 +50,7 @@ namespace MadPay724.Presentation
             services.AddScoped<IUnitOfWork<MadpayDbContext>, UnitOfWork<MadpayDbContext>>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUploadService, UploadService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
             {
@@ -128,8 +131,8 @@ namespace MadPay724.Presentation
 
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider= new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),@"Files")),
-                RequestPath= new PathString("/Files")
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                RequestPath = new PathString("/wwwroot")
 
             });
 

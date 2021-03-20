@@ -70,6 +70,15 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string FileDeletedSuccess {
+            get {
+                return ResourceManager.GetString("FileDeletedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to file upldate successfuly.
         /// </summary>
         public static string FileUploadSuccess {

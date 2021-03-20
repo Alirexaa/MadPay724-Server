@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Files\Json\Seed\UserSeedData.json" />
+    <Content Remove="wwwroot\Files\Json\Seed\UserSeedData.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="CloudinaryDotNet" Version="1.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -30,9 +29,11 @@
 <ItemGroup>
   <Folder Include="Controllers\Api\" />
   <Folder Include="Controllers\Site\App\" />
+  <Folder Include="wwwroot\Files\Images\Profiles\" />
 </ItemGroup>
 <ItemGroup>
-  <None Include="Files\Json\Seed\UserSeedData.json" />
+  <None Include="wwwroot\Files\Json\Seed\UserSeedData.json" />
+  <None Include="wwwroot\Files\Images\ProfilePic.png" />
 </ItemGroup>
 
 </Project>

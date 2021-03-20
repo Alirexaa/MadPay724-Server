@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using MadPay724.Common.Helper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.Photo;
-using MadPay724.Data.Models;
 using MadPay724.Repo.Infrastructure;
+using MadPay724.Services.Upload.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -26,21 +24,16 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
     {
         private readonly IUnitOfWork<MadpayDbContext> _db;
         private readonly IMapper _mapper;
-        private readonly Cloudinary _clodinary;
-        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private readonly IUploadService _uploadService;
+        private readonly IWebHostEnvironment _env;
 
-        public PhotoController(IUnitOfWork<MadpayDbContext> dbContext ,IMapper mapper,
-             IOptions<CloudinarySettings> cloudinaryConfig)
+        public PhotoController(IUnitOfWork<MadpayDbContext> dbContext ,IMapper mapper, IUploadService uploadService,
+            IWebHostEnvironment env)
         {
             _db = dbContext;
             _mapper = mapper;
-            _cloudinaryConfig = cloudinaryConfig;
-            Account acc = new Account(_cloudinaryConfig.Value.CloudName,
-                _cloudinaryConfig.Value.APIKey,
-                _cloudinaryConfig.Value.APISecret);
-
-            _clodinary = new Cloudinary(acc);
-
+            _uploadService = uploadService;
+           _env = env;
         }
 
         [HttpPost]
@@ -50,48 +43,42 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             {
                return Unauthorized();
             }
-
+            
             var file = photoFromUserProfileDto.File;
+            //var uploadResult = await _uploadService.UploadToCloudinary(file);
+            string baseUrl = string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}");
 
-            var uploadResult = new ImageUploadResult();
+            var uploadResult = await _uploadService.UploadToLocal(file,userId,_env.WebRootPath,baseUrl);
 
-            if (file.Length > 0)
+            if (uploadResult.Status)
             {
-                using (var strem=file.OpenReadStream())
+                photoFromUserProfileDto.Url = uploadResult.Url;
+                photoFromUserProfileDto.PublicId = uploadResult.PublicId;
+                var photoFromRepository = await _db.PhotoRepository.GetAsync(p => p.UserId == userId && p.IsMain == true);
+                
+                //Delete image if it exist in Cloudinary
+                if (photoFromRepository.PublicId != null && photoFromRepository.PublicId != "0")
                 {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        File = new FileDescription(file.Name, strem),
-                        Transformation = new Transformation().Width(250).Height(250).Crop("fill").Gravity("face")
-                    };
-                    uploadResult = await _clodinary.UploadAsync(uploadParams);
+                    var deletedResult = await _uploadService.DeleteFileFromCloudinary(photoFromRepository.PublicId);
                 }
-            }
+               
+                _mapper.Map(photoFromUserProfileDto, photoFromRepository);
 
-            photoFromUserProfileDto.Url = uploadResult.Url.ToString();
-            photoFromUserProfileDto.PublicId = uploadResult.PublicId;
+                _db.PhotoRepository.Update(photoFromRepository);
 
-            var photoFromRepository = await _db.PhotoRepository.GetAsync(p => p.UserId == userId && p.IsMain == true);
-
-            //Delete image if it exist in Cloudinary
-            if(photoFromRepository.PublicId !=null && photoFromRepository.PublicId != "0")
-            {
-                var deleteParams = new DeletionParams(photoFromRepository.PublicId);
-                var deleteResult = _clodinary.Destroy(deleteParams);
-            }
-
-             _mapper.Map(photoFromUserProfileDto, photoFromRepository);
-
-             _db.PhotoRepository.Update(photoFromRepository);
-
-            if(await _db.SaveAsync())
-            {
-                var photoForReturn = _mapper.Map<PhotoForReturnUserProfileDto>(photoFromRepository);
-                return CreatedAtRoute("GetPhoto",routeValues: new {id= photoFromRepository.Id },value: photoForReturn);
+                if (await _db.SaveAsync())
+                {
+                    var photoForReturn = _mapper.Map<PhotoForReturnUserProfileDto>(photoFromRepository);
+                    return CreatedAtRoute("GetPhoto", routeValues: new { id = photoFromRepository.Id }, value: photoForReturn);
+                }
+                else
+                {
+                   return BadRequest();
+                }
             }
             else
             {
-                return BadRequest();
+                return BadRequest(uploadResult.Message);
             }
         }
 
