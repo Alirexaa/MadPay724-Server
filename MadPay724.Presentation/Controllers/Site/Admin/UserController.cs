@@ -8,6 +8,7 @@ using MadPay724.Services.Site.Admin.UserServices.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,14 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IUnitOfWork<MadpayDbContext> _db;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        public UserController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper,IUserService userService)
+        private readonly ILogger<UserController> _logger;
+        public UserController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper,
+            IUserService userService,ILogger<UserController> logger)
         {
             _db = dbContext;
             _mapper = mapper;
             _userService = userService;
+            _logger = logger;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -69,6 +73,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             }
             else
             {
+                _logger.LogError($"{userForUpdate.Name} you dos not allow to edit this user");
                 return Unauthorized();
             }
         }
