@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace MadPay724.Data.Migrations
+namespace MadPay724.Data.Migrations.MadPayMigration
 {
     [DbContext(typeof(MadpayDbContext))]
     [Migration("20210319224904_addsettings")]

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace MadPay724.Data.Migrations
+namespace MadPay724.Data.Migrations.MadPayMigration
 {
     [DbContext(typeof(MadpayDbContext))]
-    [Migration("20210321100941_uploadtolocalprop")]
-    partial class uploadtolocalprop
+    [Migration("20210319121627_initdb")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,39 +111,6 @@ namespace MadPay724.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("MadPay724.Data.Models.Setting", b =>
-                {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CloudinaryAPIKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CloudinaryAPISecret")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CloudinaryCloudName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("UploadToLocal")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("MadPay724.Data.Models.User", b =>

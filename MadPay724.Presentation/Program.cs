@@ -25,13 +25,7 @@ namespace MadPay724.Presentation
                     webBuilder.UseStartup<Startup>();
                 }).ConfigureLogging(logging =>
                 {
-                    //logging.AddConfiguration();
-                    //logging.AddConsole();
-                    //logging.AddDebug();
-                    //logging.AddEventSourceLogger();
-                    //logging.AddNLog();
-                    //logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                }).UseNLog();
+                    logging.AddNLog();
+                });
     }
 }

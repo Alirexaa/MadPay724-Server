@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace MadPay724.Data.Migrations
+namespace MadPay724.Data.Migrations.MadPayMigration
 {
     [DbContext(typeof(MadpayDbContext))]
     partial class MadpayDbContextModelSnapshot : ModelSnapshot

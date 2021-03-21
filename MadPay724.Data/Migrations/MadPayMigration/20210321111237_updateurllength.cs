@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MadPay724.Data.Migrations
+namespace MadPay724.Data.Migrations.MadPayMigration
 {
     public partial class updateurllength : Migration
     {

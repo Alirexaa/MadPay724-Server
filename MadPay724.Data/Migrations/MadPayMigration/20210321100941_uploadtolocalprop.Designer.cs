@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace MadPay724.Data.Migrations
+namespace MadPay724.Data.Migrations.MadPayMigration
 {
     [DbContext(typeof(MadpayDbContext))]
-    [Migration("20210321111237_updateurllength")]
-    partial class updateurllength
+    [Migration("20210321100941_uploadtolocalprop")]
+    partial class uploadtolocalprop
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,8 +99,8 @@ namespace MadPay724.Data.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
