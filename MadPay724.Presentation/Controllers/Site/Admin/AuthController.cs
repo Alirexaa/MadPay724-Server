@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -29,11 +30,15 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IUnitOfWork<MadpayDbContext> _db;
         private readonly IAuthService _authService;
         private readonly IConfiguration _config;
-        public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService, IConfiguration config)
+        private readonly ILogger _logger;
+
+        public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService,
+            IConfiguration config,ILogger logger)
         {
             _db = dbContext;
             _authService = authService;
             _config = config;
+            _logger = logger;
         }
 
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -113,6 +118,9 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             };
             var tokenHandeler = new JwtSecurityTokenHandler();
             var token = tokenHandeler.CreateToken(tokenDes);
+
+            _logger.LogInformation($"user {userFromRepo.Name} - {userFromRepo.Id} logged in. ");
+
             return Ok(new
             {
                 token = tokenHandeler.WriteToken(token)

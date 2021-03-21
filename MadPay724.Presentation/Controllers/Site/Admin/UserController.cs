@@ -3,6 +3,7 @@ using MadPay724.Common.Helper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
+using MadPay724.Presentation.Helper.Filters;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.UserServices.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
 {
     [ApiExplorerSettings(GroupName = "SiteApi")]
     [Authorize]
+    //[ServiceFilter(typeof(LogFilter))]
     [Route("site/admin/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -28,7 +30,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
         public UserController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper,
-            IUserService userService,ILogger<UserController> logger)
+            IUserService userService, ILogger<UserController> logger)
         {
             _db = dbContext;
             _mapper = mapper;
@@ -45,20 +47,29 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
-            var user = await _db.UserRepository.GetManyAsync(p => p.Id == id, null, "Photos");
-            var userToRetun = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
-            return Ok(userToRetun);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
+            {
+                var user = await _db.UserRepository.GetManyAsync(p => p.Id == id, null, "Photos");
+                var userToReturn = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
+                return Ok(userToReturn);
+            }
+            else
+            {
+                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to get information if user: {id}");
+                return Unauthorized();
+            }
+
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id,UserForUpdateDto userForUpdate)
+        public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto userForUpdate)
         {
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
             {
-               var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
+                var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
                 _mapper.Map(userForUpdate, userFromRepo);
                 _db.UserRepository.Update(userFromRepo);
                 if (await _db.SaveAsync())
@@ -73,7 +84,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             }
             else
             {
-                _logger.LogError($"{userForUpdate.Name} you dos not allow to edit this user");
+                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to Update UserProfile of user {id}");
                 return Unauthorized();
             }
         }
@@ -84,7 +95,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("ChangeUserPassword/{id}")]
         [HttpPut]
-        public async Task<IActionResult> ChangeUserPassword(string id,PasswordForChangeDto passwordForChangeDto)
+        public async Task<IActionResult> ChangeUserPassword(string id, PasswordForChangeDto passwordForChangeDto)
         {
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
             {
@@ -98,13 +109,14 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
 
                 if (result)
                     return Ok(Resource.InformationMessages.ChangedPassword);
-                else return BadRequest(Resource.ErrorMessages.NoChangedPassword); 
+                else return BadRequest(Resource.ErrorMessages.NoChangedPassword);
             }
             else
             {
+                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to change password of user {id}");
                 return Unauthorized();
             }
-          
+
         }
 
 
