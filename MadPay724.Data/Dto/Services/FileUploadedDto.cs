@@ -11,5 +11,6 @@ namespace MadPay724.Data.Dto.Services
         public string PublicId { get; set; } = "0";
         public string Message { get; set; }
 
+        public bool IsUplodedToLocal { get; set; }
     }
 }

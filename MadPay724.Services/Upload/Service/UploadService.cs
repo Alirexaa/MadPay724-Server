@@ -78,6 +78,7 @@ namespace MadPay724.Services.Upload.Service
                         Message = Resource.InformationMessages.FileUploadSuccess,
                         PublicId = "0",
                         Url = string.Format($"{baseUrl}/wwwroot/Files/Images/Profiles/{newFileName}"),
+                        IsUplodedToLocal = true,
 
                     };
                 }
@@ -127,7 +128,9 @@ namespace MadPay724.Services.Upload.Service
                                 Status = true,
                                 Message = Resource.InformationMessages.FileUploadSuccess,
                                 Url = uploadResult.Url.ToString(),
-                                PublicId = uploadResult.PublicId
+                                PublicId = uploadResult.PublicId,
+                                IsUplodedToLocal = false,
+
 
                             };
                         }
@@ -197,6 +200,29 @@ namespace MadPay724.Services.Upload.Service
                 };
             }
 
+        }
+
+        public async Task<FileDeletedDto> DeleteFileFromLocal(string fileName, string webRootPath, string filePath)
+        {
+            string storagePath = Path.Combine(webRootPath, filePath);
+            string fileFullPath = Path.Combine(storagePath, fileName);
+            if (File.Exists(fileFullPath))
+            {
+                 File.Delete(fileFullPath);
+                return new FileDeletedDto()
+                {
+                    Status = true,
+                    Message = Resource.InformationMessages.FileDeletedSuccess
+                };
+            }
+            else
+            {
+                return new FileDeletedDto()
+                {
+                    Status =true,
+                    Message = Resource.InformationMessages.NoFileExistForDelete
+                };  
+            }
         }
     }
 }

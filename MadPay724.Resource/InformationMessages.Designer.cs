@@ -70,7 +70,7 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to file deleted successfuly.
         /// </summary>
         public static string FileDeletedSuccess {
             get {
@@ -79,11 +79,20 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to file upldate successfuly.
+        ///   Looks up a localized string similar to file upldated successfuly.
         /// </summary>
         public static string FileUploadSuccess {
             get {
                 return ResourceManager.GetString("FileUploadSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to there is no file for delete.
+        /// </summary>
+        public static string NoFileExistForDelete {
+            get {
+                return ResourceManager.GetString("NoFileExistForDelete", resourceCulture);
             }
         }
     }

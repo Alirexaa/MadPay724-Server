@@ -13,5 +13,6 @@ namespace MadPay724.Services.Upload.Interface
         Task<FileUploadedDto> UploadProfileImageToLocal(IFormFile file,string userId, string webRootPath, string baseUrl);
         Task<FileUploadedDto> UploadProfileImage(IFormFile file, string userId, string webRootPath, string baseUrl);
         Task<FileDeletedDto> DeleteFileFromCloudinary(string publicId);
+        Task<FileDeletedDto> DeleteFileFromLocal(string fileName, string webRootPath, string filePath);
     }
 }

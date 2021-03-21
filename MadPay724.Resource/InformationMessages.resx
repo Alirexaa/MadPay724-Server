@@ -121,9 +121,12 @@
     <value>password changed</value>
   </data>
   <data name="FileDeletedSuccess" xml:space="preserve">
-    <value />
+    <value>file deleted successfuly</value>
   </data>
   <data name="FileUploadSuccess" xml:space="preserve">
-    <value>file upldate successfuly</value>
+    <value>file upldated successfuly</value>
+  </data>
+  <data name="NoFileExistForDelete" xml:space="preserve">
+    <value>there is no file for delete</value>
   </data>
 </root>

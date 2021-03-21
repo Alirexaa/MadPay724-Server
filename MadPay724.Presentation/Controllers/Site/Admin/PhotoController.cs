@@ -27,23 +27,23 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IUploadService _uploadService;
         private readonly IWebHostEnvironment _env;
 
-        public PhotoController(IUnitOfWork<MadpayDbContext> dbContext ,IMapper mapper, IUploadService uploadService,
+        public PhotoController(IUnitOfWork<MadpayDbContext> dbContext, IMapper mapper, IUploadService uploadService,
             IWebHostEnvironment env)
         {
             _db = dbContext;
             _mapper = mapper;
             _uploadService = uploadService;
-           _env = env;
+            _env = env;
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeUserPhoto(string userId,[FromForm] PhotoFromUserProfileDto photoFromUserProfileDto)
+        public async Task<IActionResult> ChangeUserPhoto(string userId, [FromForm] PhotoFromUserProfileDto photoFromUserProfileDto)
         {
-            if(User.FindFirst(ClaimTypes.NameIdentifier).Value != userId)
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != userId)
             {
-               return Unauthorized();
+                return Unauthorized();
             }
-            
+
             var file = photoFromUserProfileDto.File;
             //var uploadResult = await _uploadService.UploadProfileImageToCloudinary(file,userId);
             string baseUrl = string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}");
@@ -55,15 +55,28 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             if (uploadResult.Status)
             {
                 photoFromUserProfileDto.Url = uploadResult.Url;
-                photoFromUserProfileDto.PublicId = uploadResult.PublicId;
+                photoFromUserProfileDto.PublicId = uploadResult.IsUplodedToLocal ? "1" : uploadResult.PublicId;
+
                 var photoFromRepository = await _db.PhotoRepository.GetAsync(p => p.UserId == userId && p.IsMain == true);
-                
-                //Delete image if it exist in Cloudinary
-                if (photoFromRepository?.PublicId != null && photoFromRepository?.PublicId != "0")
+
+                //Delete image if it is in Cloudinary
+                if (photoFromRepository?.PublicId != null && photoFromRepository?.PublicId != "0" && photoFromRepository?.PublicId != "1")
                 {
                     var deletedResult = await _uploadService.DeleteFileFromCloudinary(photoFromRepository.PublicId);
                 }
-               
+                //delete image if extention of oldImage and newImage is different
+                //if extention of oldImage and newImage is same automatic oldImage Deleded
+                if (photoFromRepository?.PublicId == "1" && uploadResult.IsUplodedToLocal && photoFromRepository.Url != photoFromUserProfileDto.Url)
+                {
+
+                    var deletedResult = _uploadService.DeleteFileFromLocal(photoFromRepository.Url.Split("/").Last(), _env.WebRootPath, "Files\\Images\\Profiles");
+                }
+                //delete oldimage if oldImage is in local and newImage in cloudinary  
+                if (photoFromRepository?.PublicId == "1" && !uploadResult.IsUplodedToLocal)
+                {
+                    var deletedResult = _uploadService.DeleteFileFromLocal(photoFromRepository.Url.Split("/").Last(), _env.WebRootPath, "Files\\Images\\Profiles");
+                }
+
                 _mapper.Map(photoFromUserProfileDto, photoFromRepository);
 
                 _db.PhotoRepository.Update(photoFromRepository);
@@ -75,7 +88,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 }
                 else
                 {
-                   return BadRequest();
+                    return BadRequest();
                 }
             }
             else
@@ -84,7 +97,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             }
         }
 
-        [HttpGet("{id}",Name = "GetPhoto")]
+        [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(string id)
         {
             var photoFromRepository = await _db.PhotoRepository.GetByIdAsync(id);
