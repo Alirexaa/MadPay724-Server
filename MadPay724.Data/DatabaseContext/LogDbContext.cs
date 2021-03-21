@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
 namespace MadPay724.Data.DatabaseContext
 {
@@ -12,6 +13,13 @@ namespace MadPay724.Data.DatabaseContext
         {
             optionsBuilder.UseSqlServer("Data Source=. ; Initial Catalog=LogMadPay724Db ; Integrated Security=True; MultipleActiveResultSets=True; ");
         }
-        public DbSet<Log> Logs { get; set; }
+        public DbSet<ExtendedLog> Logs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            LogModelBuilderHelper.Build<ExtendedLog>(modelBuilder.Entity<ExtendedLog>());
+            modelBuilder.Entity<ExtendedLog>().ToTable("Log");
+        }
     }
 }

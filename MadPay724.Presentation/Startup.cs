@@ -45,6 +45,7 @@ namespace MadPay724.Presentation
             //services.AddControllers();
             services.AddCors();
             //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<ISeedService, SeedService>();
             services.AddScoped<IUnitOfWork<MadpayDbContext>, UnitOfWork<MadpayDbContext>>();
