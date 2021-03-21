@@ -14,7 +14,7 @@ namespace MadPay724.Data.Models
 
         }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 0)]
+        [StringLength(maximumLength: 500, MinimumLength = 0)]
         public string Url { get; set; }
         [StringLength(maximumLength: 500, MinimumLength = 0)]
         public string Description { get; set; }

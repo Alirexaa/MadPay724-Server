@@ -45,10 +45,12 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             }
             
             var file = photoFromUserProfileDto.File;
-            //var uploadResult = await _uploadService.UploadToCloudinary(file);
+            //var uploadResult = await _uploadService.UploadProfileImageToCloudinary(file,userId);
             string baseUrl = string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}");
 
-            var uploadResult = await _uploadService.UploadToLocal(file,userId,_env.WebRootPath,baseUrl);
+            //var uploadResult = await _uploadService.UploadProfileImageToLocal(file,userId,_env.WebRootPath,baseUrl);
+
+            var uploadResult = await _uploadService.UploadProfileImage(file, userId, _env.WebRootPath, baseUrl);
 
             if (uploadResult.Status)
             {
@@ -57,7 +59,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 var photoFromRepository = await _db.PhotoRepository.GetAsync(p => p.UserId == userId && p.IsMain == true);
                 
                 //Delete image if it exist in Cloudinary
-                if (photoFromRepository.PublicId != null && photoFromRepository.PublicId != "0")
+                if (photoFromRepository?.PublicId != null && photoFromRepository?.PublicId != "0")
                 {
                     var deletedResult = await _uploadService.DeleteFileFromCloudinary(photoFromRepository.PublicId);
                 }

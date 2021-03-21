@@ -33,13 +33,28 @@ namespace MadPay724.Services.Upload.Service
             _cloudinary = new Cloudinary(acc);
         }
 
-
-        public Task<FileUploadedDto> UploadFile(IFormFile file)
+        /// <summary>
+        /// this method upload profile image according setting to local or cloudinary
+        /// </summary>
+        /// <param name="file">image file for upload</param>
+        /// <param name="userId">userId for owner of image</param>
+        /// <param name="webRootPath">wwwroot path</param>
+        /// <param name="baseUrl">baseUrl is domain local : https://www.example.com</param>
+        /// <returns></returns>
+        public async Task<FileUploadedDto> UploadProfileImage(IFormFile file, string userId, string webRootPath, string baseUrl)
         {
-            throw new NotImplementedException();
+            if (_setting.UploadToLocal)
+            {
+                return await  UploadProfileImageToLocal(file, userId, webRootPath, baseUrl);
+            }
+            else
+            {
+                return await UploadProfileImageToCloudinary(file, userId);
+            }
         }
 
-        public async Task<FileUploadedDto> UploadToLocal(IFormFile file,string userId, string webRootPath, string baseUrl)
+
+        public async Task<FileUploadedDto> UploadProfileImageToLocal(IFormFile file,string userId, string webRootPath, string baseUrl)
         {
             if (file.Length > 0)
             {
@@ -86,7 +101,7 @@ namespace MadPay724.Services.Upload.Service
             }
         }
 
-        public async Task<FileUploadedDto> UploadToCloudinary(IFormFile file)
+        public async Task<FileUploadedDto> UploadProfileImageToCloudinary(IFormFile file, string userId)
         {
             var uploadResult = new ImageUploadResult();
 
@@ -100,7 +115,9 @@ namespace MadPay724.Services.Upload.Service
                         var uploadParams = new ImageUploadParams()
                         {
                             File = new FileDescription(file.Name, stream),
-                            Transformation = new Transformation().Width(250).Height(250).Crop("fill").Gravity("face")
+                            Transformation = new Transformation().Width(250).Height(250).Crop("fill").Gravity("face"),
+                            Folder = "Profile/" + userId
+                            
                         };
                         uploadResult = await _cloudinary.UploadAsync(uploadParams);
                         if (uploadResult.StatusCode == HttpStatusCode.OK)
@@ -119,7 +136,7 @@ namespace MadPay724.Services.Upload.Service
                             return new FileUploadedDto()
                             {
                                 Status = false,
-                                Message = uploadResult.Error.Message
+                                Message = uploadResult.Error?.Message
                             };
                         }
 
