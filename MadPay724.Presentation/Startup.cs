@@ -56,6 +56,7 @@ namespace MadPay724.Presentation
             services.AddScoped<IUploadService, UploadService>();
             //services.AddScoped<ILoggerFactory, LoggerFactory>();
             services.AddScoped<LogFilter>();
+            services.AddScoped<UserCheckIdFilter>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
             {

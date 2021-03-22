@@ -45,30 +45,21 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             return Ok(usersToReturn);
         }
         [HttpGet("{id}")]
+        [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> GetUser(string id)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
-            {
-                var user = await _db.UserRepository.GetManyAsync(p => p.Id == id, null, "Photos");
-                var userToReturn = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
-                return Ok(userToReturn);
-            }
-            else
-            {
-                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to get information if user: {id}");
-                return Unauthorized();
-            }
-
+            var user = await _db.UserRepository.GetManyAsync(p => p.Id == id, null, "Photos");
+            var userToReturn = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
+            return Ok(userToReturn);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto userForUpdate)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
-            {
                 var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
                 _mapper.Map(userForUpdate, userFromRepo);
                 _db.UserRepository.Update(userFromRepo);
@@ -81,12 +72,6 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 {
                     return StatusCode(406);
                 }
-            }
-            else
-            {
-                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to Update UserProfile of user {id}");
-                return Unauthorized();
-            }
         }
 
 
