@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadPay724.Repo", "MadPay724
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadPay724.Presentation", "MadPay724.Presentation\MadPay724.Presentation.csproj", "{82214262-509D-43A7-9C94-60D2F56BFFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadPay724.Resource", "MadPay724.Resource\MadPay724.Resource.csproj", "{C6A63D61-3E90-4B5E-8081-21D60B119AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MadPay724.Resource", "MadPay724.Resource\MadPay724.Resource.csproj", "{C6A63D61-3E90-4B5E-8081-21D60B119AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadPay724.Test", "MadPay724.Test\MadPay724.Test.csproj", "{5DEB992A-3402-4073-A025-BEF8988BE187}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C6A63D61-3E90-4B5E-8081-21D60B119AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A63D61-3E90-4B5E-8081-21D60B119AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A63D61-3E90-4B5E-8081-21D60B119AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DEB992A-3402-4073-A025-BEF8988BE187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DEB992A-3402-4073-A025-BEF8988BE187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DEB992A-3402-4073-A025-BEF8988BE187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DEB992A-3402-4073-A025-BEF8988BE187}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
