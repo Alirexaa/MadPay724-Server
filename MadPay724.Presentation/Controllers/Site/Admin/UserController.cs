@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Common.Helper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
@@ -59,18 +60,18 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto userForUpdate)
         {
-                var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
-                _mapper.Map(userForUpdate, userFromRepo);
-                _db.UserRepository.Update(userFromRepo);
-                if (await _db.SaveAsync())
-                {
-                    return Ok();
+            var userFromRepo = await _db.UserRepository.GetByIdAsync(id);
+            _mapper.Map(userForUpdate, userFromRepo);
+            _db.UserRepository.Update(userFromRepo);
+            if (await _db.SaveAsync())
+            {
+                return Ok();
 
-                }
-                else
-                {
+            }
+            else
+            {
                 return BadRequest();
-                }
+            }
         }
 
 
@@ -78,28 +79,36 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("ChangeUserPassword/{id}")]
+        [ServiceFilter(typeof(UserCheckIdFilter))]
         [HttpPut]
         public async Task<IActionResult> ChangeUserPassword(string id, PasswordForChangeDto passwordForChangeDto)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
+
+            var userFromReo = await _userService.GetUserForChangingPassword(id, passwordForChangeDto.OldPassword);
+            if (userFromReo == null)
             {
-                var userFromReo = await _userService.GetUserForChangingPassword(id, passwordForChangeDto.OldPassword);
-                if (userFromReo == null)
+                return BadRequest(new ReturnMessage()
                 {
-                    return BadRequest(Resource.ErrorMessages.WrongPassword);
-                }
-
-                var result = await _userService.UpdateUserPassword(userFromReo, passwordForChangeDto.NewPassword);
-
-                if (result)
-                    return Ok(Resource.InformationMessages.ChangedPassword);
-                else return BadRequest(Resource.ErrorMessages.NoChangedPassword);
+                    Message = Resource.ErrorMessages.WrongPassword,
+                    Status =false
+                });
             }
-            else
+
+            var result = await _userService.UpdateUserPassword(userFromReo, passwordForChangeDto.NewPassword);
+
+            if (result)
+                return Ok(new ReturnMessage()
+                {
+                    Message = Resource.InformationMessages.ChangedPassword,
+                    Status = true
+                });
+            else return BadRequest(new ReturnMessage()
             {
-                _logger.LogWarning($"impermissin action :user {User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to change password of user {id}");
-                return Unauthorized();
-            }
+                Message = Resource.ErrorMessages.NoChangedPassword,
+                Status = false
+            });
+
+
 
         }
 
