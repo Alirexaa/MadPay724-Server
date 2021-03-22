@@ -22,7 +22,7 @@ namespace MadPay724.Test.Controllers
 {
     public class UserControllerTests : IClassFixture<TestClientProvider<Startup>>
     {
-        private HttpClient _client;
+        private readonly HttpClient _client;
         private readonly string AToken;
         public UserControllerTests(TestClientProvider<Startup> testClientProvider)
         {

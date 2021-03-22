@@ -17,15 +17,30 @@ namespace MadPay724.Presentation.Helper.Filters
 
         }
         public override void OnActionExecuting(ActionExecutingContext context)
-        { 
-            if (_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == context.RouteData.Values["id"].ToString())
+        {
+            if (context.RouteData.Values["id"] != null && context.RouteData.Values["id"] == null )
             {
-                base.OnActionExecuting(context);
+                if (_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == context.RouteData.Values["id"].ToString())
+                {
+                    base.OnActionExecuting(context);
+                }
+                else
+                {
+                    _logger.LogWarning($"impermissin action :user {_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to Update or Get UserProfile of user {context.RouteData.Values["id"]}");
+                    context.Result = new UnauthorizedResult();
+                }
             }
-            else
+            else if (context.RouteData.Values["userId"] != null)
             {
-                _logger.LogWarning($"impermissin action :user {_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to Update or Get UserProfile of user {context.RouteData.Values["id"]}");
-                context.Result = new UnauthorizedResult();
+                if (_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == context.RouteData.Values["userId"].ToString())
+                {
+                    base.OnActionExecuting(context);
+                }
+                else
+                {
+                    _logger.LogWarning($"impermissin action :user {_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value} attempted to Update or Get UserProfile of user {context.RouteData.Values["userId"]}");
+                    context.Result = new UnauthorizedResult();
+                }
             }
 
         }

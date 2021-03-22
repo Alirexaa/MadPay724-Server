@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.Photo;
+using MadPay724.Presentation.Helper.Filters;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Upload.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -37,12 +38,10 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> ChangeUserPhoto(string userId, [FromForm] PhotoFromUserProfileDto photoFromUserProfileDto)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != userId)
-            {
-                return Unauthorized();
-            }
+            
 
             var file = photoFromUserProfileDto.File;
             //var uploadResult = await _uploadService.UploadProfileImageToCloudinary(file,userId);
@@ -98,6 +97,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         }
 
         [HttpGet("{id}", Name = "GetPhoto")]
+        [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> GetPhoto(string id)
         {
             var photoFromRepository = await _db.PhotoRepository.GetByIdAsync(id);
