@@ -38,11 +38,12 @@ namespace MadPay724.Data.Models
         [Required]
         public byte[] PasswordSalt { get; set; }
 
-
+        [Required]
         public bool   Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime LastActive { get; set; }
 
+        [StringLength(maximumLength: 100, MinimumLength = 0)]
         public string City { get; set; }
 
         [Required]

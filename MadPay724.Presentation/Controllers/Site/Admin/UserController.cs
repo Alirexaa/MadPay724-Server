@@ -54,8 +54,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id}")]
         [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> UpdateUser(string id, UserForUpdateDto userForUpdate)
@@ -70,7 +69,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 }
                 else
                 {
-                    return StatusCode(406);
+                return BadRequest();
                 }
         }
 

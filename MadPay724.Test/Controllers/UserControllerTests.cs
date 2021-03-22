@@ -1,9 +1,14 @@
 ﻿using FluentAssertions;
+using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation;
 using MadPay724.Test.Providers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -19,7 +24,7 @@ namespace MadPay724.Test.Controllers
         public UserControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDIxNzYwLCJleHAiOjE2MTY0Mjg5NjAsImlhdCI6MTYxNjQyMTc2MH0.sWhkg_nL9ocAMYm8b5SM6YIbw3eAJAeOWY8XR8xYtJs";
+            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDM3MDQ1LCJleHAiOjE2MTY0NDQyNDUsImlhdCI6MTYxNjQzNzA0NX0.e5I0o7U1ayH4FhEIjKNRgFTnfRXbmodmUYWHTijMUbI";
             //"userName":"alireza@gmail.com"
             //"password":"123456789"
             // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
@@ -131,6 +136,45 @@ namespace MadPay724.Test.Controllers
         #region ChangeUserPasswordTests
         #endregion
 
+        #region UserUpdateModelState
+        [Fact]
+        public async void UpdateUser_ModelStateError()
+        {
+            //Arrange
+            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            var request = new
+            {
+                Url = "/site/admin/user/" + userIdHimSelf,
+                Body = new UserForUpdateDto
+                {
+                    Name = string.Empty,
+                    Address = string.Empty,
+                    PhoneNumber = string.Empty,
+                    Gender = true,
+                    City = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio"
+                }
+            };
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
 
+            var controller = new ModelStateControllerTests();
+
+            //Act
+
+            var response = await _client.PutAsync(request.Url, ContentHelper.GetStringContent(request.Body));
+            var value = response.Content.ReadAsStringAsync();
+
+            controller.ValidateModelState(request.Body);
+            var modelState = controller.ModelState;
+
+            //Assert
+            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            Assert.Equal(4, modelState.Keys.Count());
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("Name") && modelState.ContainsKey("Name") &&
+                modelState.ContainsKey("Name") && modelState.ContainsKey("Name"));
+
+        }
+        #endregion
     }
 }
