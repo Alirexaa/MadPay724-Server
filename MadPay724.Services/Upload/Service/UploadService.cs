@@ -45,7 +45,7 @@ namespace MadPay724.Services.Upload.Service
         {
             if (_setting.UploadToLocal)
             {
-                return await  UploadProfileImageToLocal(file, userId, webRootPath, baseUrl);
+                return await UploadProfileImageToLocal(file, userId, webRootPath, baseUrl);
             }
             else
             {
@@ -54,7 +54,7 @@ namespace MadPay724.Services.Upload.Service
         }
 
 
-        public async Task<FileUploadedDto> UploadProfileImageToLocal(IFormFile file,string userId, string webRootPath, string baseUrl)
+        public async Task<FileUploadedDto> UploadProfileImageToLocal(IFormFile file, string userId, string webRootPath, string baseUrl)
         {
             if (file.Length > 0)
             {
@@ -118,7 +118,7 @@ namespace MadPay724.Services.Upload.Service
                             File = new FileDescription(file.Name, stream),
                             Transformation = new Transformation().Width(250).Height(250).Crop("fill").Gravity("face"),
                             Folder = "Profile/" + userId
-                            
+
                         };
                         uploadResult = await _cloudinary.UploadAsync(uploadParams);
                         if (uploadResult.StatusCode == HttpStatusCode.OK)
@@ -202,13 +202,13 @@ namespace MadPay724.Services.Upload.Service
 
         }
 
-        public async Task<FileDeletedDto> DeleteFileFromLocal(string fileName, string webRootPath, string filePath)
+        public  FileDeletedDto DeleteFileFromLocal(string fileName, string webRootPath, string filePath)
         {
             string storagePath = Path.Combine(webRootPath, filePath);
             string fileFullPath = Path.Combine(storagePath, fileName);
             if (File.Exists(fileFullPath))
             {
-                 File.Delete(fileFullPath);
+                File.Delete(fileFullPath);
                 return new FileDeletedDto()
                 {
                     Status = true,
@@ -219,9 +219,9 @@ namespace MadPay724.Services.Upload.Service
             {
                 return new FileDeletedDto()
                 {
-                    Status =true,
+                    Status = true,
                     Message = Resource.InformationMessages.NoFileExistForDelete
-                };  
+                };
             }
         }
     }

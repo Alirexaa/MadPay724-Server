@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MadPay724.Test.Controllers
@@ -30,7 +31,7 @@ namespace MadPay724.Test.Controllers
             // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
         }
         //[Fact]
-        //public async void GetUsers_Unauthorized_User_Cant_GetUsers()
+        //public async Task GetUsers_Unauthorized_User_Cant_GetUsers()
         //{
         //    //Arrange
         //    var request = "/site/admin/user";
@@ -40,7 +41,7 @@ namespace MadPay724.Test.Controllers
         //    response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         //}
         //[Fact]
-        //public async void GetUsers_authorized_User_Can_GetUsers()
+        //public async Task GetUsers_authorized_User_Can_GetUsers()
         //{
         //    //Arrange
         //    var request = "/site/admin/user";
@@ -54,7 +55,7 @@ namespace MadPay724.Test.Controllers
         //}
         #region GetUserTests
         [Fact]
-        public async void GetUser_Cant_GetAnotherUser()
+        public async Task GetUser_Cant_GetAnotherUser()
         {
             //Arrange
             string anotherUserId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24aa";
@@ -67,7 +68,7 @@ namespace MadPay724.Test.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
         [Fact]
-        public async void GetUser_Can_GetHimSelfUser()
+        public async Task GetUser_Can_GetHimSelfUser()
         {
             //Arrange
             string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
@@ -82,7 +83,7 @@ namespace MadPay724.Test.Controllers
         #endregion
         #region GetUserTests
         [Fact]
-        public async void UpdateUser_Cant_UpdateAnotherUser()
+        public async Task UpdateUser_Cant_UpdateAnotherUser()
         {
             //Arrange
             string anotherUserId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24aa";
@@ -107,7 +108,7 @@ namespace MadPay724.Test.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
         [Fact]
-        public async void UpdateUser_Can_UpdateHimSelfUser()
+        public async Task UpdateUser_Can_UpdateHimSelfUser()
         {
             //Arrange
             string UserIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
@@ -138,7 +139,7 @@ namespace MadPay724.Test.Controllers
 
         #region UserUpdateModelState
         [Fact]
-        public async void UpdateUser_ModelStateError()
+        public async Task UpdateUser_ModelStateError()
         {
             //Arrange
             string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
