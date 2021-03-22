@@ -30,10 +30,10 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IUnitOfWork<MadpayDbContext> _db;
         private readonly IAuthService _authService;
         private readonly IConfiguration _config;
-        private readonly ILogger _logger;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService,
-            IConfiguration config,ILogger logger)
+            IConfiguration config,ILogger<AuthController> logger)
         {
             _db = dbContext;
             _authService = authService;
