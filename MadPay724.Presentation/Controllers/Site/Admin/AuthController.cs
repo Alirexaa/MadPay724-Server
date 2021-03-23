@@ -49,16 +49,14 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         {
             userForRegister.UserName = userForRegister.UserName.ToLower();
             if (await _db.UserRepository.UserExist(userForRegister.UserName))
-                return StatusCode(409, new ReturnMessage()
+                return Conflict(new ReturnMessage()
                 {
                     Status = false,
                     Title = Resource.ErrorMessages.Error,
                     Message = Resource.ErrorMessages.ExistUserMessage,
                     Code = "409"
 
-                }
-                    );
-
+                });      
             var userToCreate = new User()
             {
                 UserName = userForRegister.UserName,

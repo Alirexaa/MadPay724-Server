@@ -12,6 +12,7 @@ namespace MadPay724.Data.Dto.Site.Admin.User
         public string UserName { get; set; }
 
         [Required]
+        [StringLength(maximumLength:16,MinimumLength =8)]
         public string Password { get; set; }
         public bool IsRemember { get; set; }
     }

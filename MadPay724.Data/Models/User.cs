@@ -30,6 +30,7 @@ namespace MadPay724.Data.Models
         
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 0)]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [Required]

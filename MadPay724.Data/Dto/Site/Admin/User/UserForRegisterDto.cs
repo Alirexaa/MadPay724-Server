@@ -19,6 +19,7 @@ namespace MadPay724.Data.Dto.Site.Admin.User
         public string Name { get; set; }
         
         [Required]
+        [Phone]
         public string PhoneNumber { get; set; }
     }
 }
