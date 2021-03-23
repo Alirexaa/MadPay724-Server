@@ -26,7 +26,7 @@ namespace MadPay724.Test.Controllers
         public PhotoControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDQ5MTEyLCJleHAiOjE2MTY0NTYzMTIsImlhdCI6MTYxNjQ0OTExMn0.T3QI-B1YgmAcwZpaMOsDwAOmGtt_sg9KtslnG1BL2O8";
+            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDk3MjQ4LCJleHAiOjE2MTY1MDQ0NDgsImlhdCI6MTYxNjQ5NzI0OH0.r2NCARUjuyqWjVCW70-d0GJ20XbEYvToztAD41sBXzc";
             //"userName":"alireza@gmail.com"
             //"password":"123456789"
             // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
@@ -40,6 +40,7 @@ namespace MadPay724.Test.Controllers
             string photoId = "7d1641a4-066b-40e4-ab5c-760536983554";
             var request = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}";
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
+            //Act
             var response = await _client.GetAsync(request);
             //Assert
             response.EnsureSuccessStatusCode();
@@ -50,9 +51,10 @@ namespace MadPay724.Test.Controllers
         {
             //Arrange
             string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24asdsad";
+            string photoId = "7d1641a4-066b-40e4-ab5c-760536983554";
             var request = new
             {
-                Url = $"/site/admin/Users/{userIdHimSelf}/photos",
+                Url = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}",
                 Body = new PhotoFromUserProfileDto
                 {
                     PublicId = "1",
@@ -60,7 +62,8 @@ namespace MadPay724.Test.Controllers
                 }
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
-            var response = await _client.PutAsync(request.Url,ContentHelper.GetStringContent(request.Body));
+            //Act
+            var response = await _client.GetAsync(request.Url);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -173,6 +176,7 @@ namespace MadPay724.Test.Controllers
                 }
             };
             multipartFormData.Add(ContentHelper.GetStringContent(request.Body));
+            //Act
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             var response = await _client.PostAsync(request.Url, multipartFormData);
             //Assert

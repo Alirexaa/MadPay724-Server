@@ -18,7 +18,7 @@ namespace MadPay724.Presentation.Helper.Filters
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.RouteData.Values["id"] != null && context.RouteData.Values["id"] == null )
+            if (context.RouteData.Values["id"] != null && context.RouteData.Values["userId"] == null )
             {
                 if (_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value == context.RouteData.Values["id"].ToString())
                 {

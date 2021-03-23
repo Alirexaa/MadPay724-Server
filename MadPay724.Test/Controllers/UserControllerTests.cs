@@ -27,7 +27,7 @@ namespace MadPay724.Test.Controllers
         public UserControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDM3MDQ1LCJleHAiOjE2MTY0NDQyNDUsImlhdCI6MTYxNjQzNzA0NX0.e5I0o7U1ayH4FhEIjKNRgFTnfRXbmodmUYWHTijMUbI";
+            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NDk3MjQ4LCJleHAiOjE2MTY1MDQ0NDgsImlhdCI6MTYxNjQ5NzI0OH0.r2NCARUjuyqWjVCW70-d0GJ20XbEYvToztAD41sBXzc";
             //"userName":"alireza@gmail.com"
             //"password":"123456789"
             // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
