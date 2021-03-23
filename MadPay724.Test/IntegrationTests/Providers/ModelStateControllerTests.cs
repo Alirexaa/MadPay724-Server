@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MadPay724.Test.Providers
+namespace MadPay724.Test.IntegrationTests.Providers
 {
     class ModelStateControllerTests:Controller
     {

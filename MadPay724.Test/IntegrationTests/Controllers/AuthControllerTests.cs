@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation;
-using MadPay724.Test.Providers;
+using MadPay724.Test.IntegrationTests.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MadPay724.Test.Controllers
+namespace MadPay724.Test.IntegrationTests.Controllers
 {
     public class AuthControllerTests: IClassFixture<TestClientProvider<Startup>>
     {

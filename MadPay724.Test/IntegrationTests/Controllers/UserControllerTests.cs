@@ -2,7 +2,7 @@
 using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation;
-using MadPay724.Test.Providers;
+using MadPay724.Test.IntegrationTests.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -18,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MadPay724.Test.Controllers
+namespace MadPay724.Test.IntegrationTests.Controllers
 {
     public class UserControllerTests : IClassFixture<TestClientProvider<Startup>>
     {
