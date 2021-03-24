@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MadPay724.Test.UnitTests.Mock.Data
+namespace MadPay724.Test.DataInput
 {
-    public static class UserControllerData
+    public static class UserControllerMockData
     {
         public static IEnumerable<User> GetUser()
         {

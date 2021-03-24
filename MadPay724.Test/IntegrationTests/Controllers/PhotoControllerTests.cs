@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MadPay724.Data.Dto.Site.Admin.Photo;
 using MadPay724.Presentation;
+using MadPay724.Test.DataInput;
 using MadPay724.Test.IntegrationTests.Providers;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -26,18 +27,15 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public PhotoControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NTA1NTIwLCJleHAiOjE2MTY1OTE5MDIsImlhdCI6MTYxNjUwNTUyMH0.H6bStlGFOoHYMiluFwNjY8xSNNG1DlGE-zl7-kQss0E";
-            //"userName":"alireza@gmail.com"
-            //"password":"123456789"
-            // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
+            AToken = UnitTestDataInput.aToken;
         }
         #region GetPhotoTests
         [Fact]
         public async Task GetPhoto_Can_GetUserHimSelf()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
-            string photoId = "7d1641a4-066b-40e4-ab5c-760536983554";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
+            string photoId = UnitTestDataInput.userLoggedInPhotoId;
             var request = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}";
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -50,16 +48,11 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task GetPhoto_Cant_GetAnotherUser()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24asdsad";
-            string photoId = "7d1641a4-066b-40e4-ab5c-760536983554";
+            string userIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
+            string photoId = UnitTestDataInput.userLoggedInPhotoId;
             var request = new
             {
-                Url = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}",
-                Body = new PhotoFromUserProfileDto
-                {
-                    PublicId = "1",
-                    Url = "https://google.com"
-                }
+                Url = $"/site/admin/Users/{userIdAnotherUser}/photos/{photoId}"
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -73,7 +66,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPhoto_Can_ChangeUserProfilePhotoHimSelf()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var fileMock = new Mock<IFormFile>();
             var fileName = "5a3a2a02-7bbf-41f1-b401-25e7be899d24.jpg";
 
@@ -110,14 +103,14 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             ByteArrayContent bytes = new ByteArrayContent(data);
             MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
             multipartFormData.Add(bytes, "File", fileMock.Object.FileName);
-            
+
             var request = new
             {
                 Url = $"/site/admin/Users/{userIdHimSelf}/photos",
                 Body = new PhotoFromUserProfileDto
                 {
                     PublicId = "1",
-                    Url= "https://google.com"
+                    Url = "https://google.com"
                 }
             };
             multipartFormData.Add(ContentHelper.GetStringContent(request.Body));
@@ -131,9 +124,9 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPhoto_Cant_ChangeUserProfilePhotoAnotherUser()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24asdsad";
-            string photoId = "7d1641a4-066b-40e4-ab5c-760536983554";
-            var request = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}";
+            string userIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
+            string photoId = UnitTestDataInput.userLoggedInPhotoId;
+            var request = $"/site/admin/Users/{userIdAnotherUser}/photos/{photoId}";
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             var response = await _client.GetAsync(request);
             //Assert
@@ -143,7 +136,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPhoto_Cant_ChangeUserProfilePhoto_WrongFile()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var fileMock = new Mock<IFormFile>();
             var fileName = "5a3a2a02-7bbf-41f1-b401-25e7be899d24.jpg";
 

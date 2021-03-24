@@ -2,6 +2,7 @@
 using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation;
+using MadPay724.Test.DataInput;
 using MadPay724.Test.IntegrationTests.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public UserControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            AToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NTA1NTIwLCJleHAiOjE2MTY1OTE5MDIsImlhdCI6MTYxNjUwNTUyMH0.H6bStlGFOoHYMiluFwNjY8xSNNG1DlGE-zl7-kQss0E";
-            //"userName":"alireza@gmail.com"
-            //"password":"123456789"
-            // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
+            AToken = UnitTestDataInput.aToken;
         }
         //[Fact]
         //public async Task GetUsers_Unauthorized_User_Cant_GetUsers()
@@ -60,8 +58,8 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task GetUser_Cant_GetAnotherUser()
         {
             //Arrange
-            string anotherUserId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24aa";
-            var request = "/site/admin/user/" + anotherUserId;
+            string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
+            var request = "/site/admin/user/" + UserIdAnotherUser;
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
 
@@ -73,7 +71,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task GetUser_Can_GetHimSelfUser()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             //Act
             var request = "/site/admin/user/" + userIdHimSelf;
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -83,23 +81,16 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         #endregion
-        #region GetUserTests
+        #region UpdateUserTests
         [Fact]
         public async Task UpdateUser_Cant_UpdateAnotherUser()
         {
             //Arrange
-            string anotherUserId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24aa";
+            string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
             var request = new
             {
-                Url = "/site/admin/user/" + anotherUserId,
-                Body = new UserForUpdateDto
-                {
-                    Name = "Ahmad",
-                    Address = "Street 2",
-                    PhoneNumber = "11111111",
-                    Gender = true,
-                    City = "string"
-                }
+                Url = "/site/admin/user/" + UserIdAnotherUser,
+                Body = UnitTestDataInput.userForUpdate
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -113,18 +104,11 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task UpdateUser_Can_UpdateHimSelfUser()
         {
             //Arrange
-            string UserIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
                 Url = "/site/admin/user/" + UserIdHimSelf,
-                Body = new UserForUpdateDto
-                {
-                    Name = "Ahmad",
-                    Address = "Street 2",
-                    PhoneNumber = "11111111",
-                    Gender = true,
-                    City = "string"
-                }
+                Body = UnitTestDataInput.userForUpdate
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -139,7 +123,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task UpdateUser_ModelStateError()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
                 Url = "/site/admin/user/" + userIdHimSelf,
@@ -179,15 +163,11 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPassword_Cant_ChangeUserPasswordAnotherUser()
         {
             //Arrange
-            string anotherUserId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24aa";
+            string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
             var request = new
             {
-                Url = "/site/admin/user/ChangeUserPassword/" + anotherUserId,
-                Body = new PasswordForChangeDto
-                {
-                    NewPassword = "123456789",
-                    OldPassword = "123456789"
-                }
+                Url = "/site/admin/user/ChangeUserPassword/" + UserIdAnotherUser,
+                Body = UnitTestDataInput.passwordForChange_CorrectOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -200,15 +180,11 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPassword_Can_ChangeUserPasswordHimSelfUser()
         {
             //Arrange
-            string UserIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
                 Url = "/site/admin/user/ChangeUserPassword/" + UserIdHimSelf,
-                Body = new PasswordForChangeDto
-                {
-                    NewPassword = "123456789",
-                    OldPassword = "123456789"
-                }
+                Body = UnitTestDataInput.passwordForChange_CorrectOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -224,7 +200,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPassword_ModelStateError()
         {
             //Arrange
-            string userIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
                 Url = "/site/admin/user/ChangeUserPassword/" + userIdHimSelf,
@@ -257,15 +233,11 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         public async Task ChangeUserPassword_Cant_WrongOldPassword()
         {
             //Arrange
-            string UserIdHimSelf = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+            string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
                 Url = "/site/admin/user/ChangeUserPassword/" + UserIdHimSelf,
-                Body = new PasswordForChangeDto
-                {
-                    NewPassword = "123456789",
-                    OldPassword = "123453216789"
-                }
+                Body = UnitTestDataInput.passwordForChange_WrongOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -282,6 +254,6 @@ namespace MadPay724.Test.IntegrationTests.Controllers
 
         #endregion
 
-    
+
     }
 }

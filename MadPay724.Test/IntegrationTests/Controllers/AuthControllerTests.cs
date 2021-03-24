@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation;
+using MadPay724.Test.DataInput;
 using MadPay724.Test.IntegrationTests.Providers;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,13 @@ using Xunit;
 
 namespace MadPay724.Test.IntegrationTests.Controllers
 {
-    public class AuthControllerTests: IClassFixture<TestClientProvider<Startup>>
+    public class AuthControllerTests : IClassFixture<TestClientProvider<Startup>>
     {
         private readonly HttpClient _client;
         public AuthControllerTests(TestClientProvider<Startup> testClientProvider)
         {
             _client = testClientProvider.Client;
-            //"userName":"alireza@gmail.com"
-            //"password":"123456789"
-            // Id :"5a3a2a02-7bbf-41f1-b401-25e7be899d24"
+            
         }
         #region LoginTests
         [Fact]
@@ -31,14 +30,10 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             var request = new
             {
                 Url = "/site/admin/Auth/login",
-                Body= new UserForLoginDto
-                {
-                    Password = "123456789",
-                    UserName = "alireza@gmail.com"
-                }
+                Body = UnitTestDataInput.userForLogin_CanLogin
             };
             //Act
-            var response = await _client.PostAsync(request.Url,ContentHelper.GetStringContent(request.Body));
+            var response = await _client.PostAsync(request.Url, ContentHelper.GetStringContent(request.Body));
             //Assert
             response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -51,11 +46,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             var request = new
             {
                 Url = "/site/admin/Auth/login",
-                Body = new UserForLoginDto
-                {
-                    Password = "123456321789",
-                    UserName = "alireza@gmail.com"
-                }
+                Body = UnitTestDataInput.userForLogin_Cant_Login
             };
             //Act
             var response = await _client.PostAsync(request.Url, ContentHelper.GetStringContent(request.Body));
@@ -64,9 +55,9 @@ namespace MadPay724.Test.IntegrationTests.Controllers
 
         }
         [Theory]
-        [InlineData("","")]
+        [InlineData("", "")]
         [InlineData("aaaa.com", "123456")]
-        public async Task Login_ModelStateError(string userName , string password)
+        public async Task Login_ModelStateError(string userName, string password)
         {
             //Arrange
             var request = new
@@ -104,13 +95,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             var request = new
             {
                 Url = "/site/admin/Auth/register",
-                Body = new UserForRegisterDto
-                {
-                    Name = "alireza",
-                    Password = "12345678",
-                    PhoneNumber = "11111111",
-                    UserName = "alireza@gmail.com"
-                }
+                Body = UnitTestDataInput.userForRegister_CantRegister_UserExist
             };
 
             //Act
@@ -119,19 +104,13 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
         [Fact]
-        public async Task Register_Can_()
+        public async Task Register_Can()
         {
             //Arrange
             var request = new
             {
                 Url = "/site/admin/Auth/register",
-                Body = new UserForRegisterDto
-                {
-                    Name = "test",
-                    Password = "12345678",
-                    PhoneNumber = "11111111",
-                    UserName = "test@test.com"
-                }
+                Body = UnitTestDataInput.userForRegister_CanRegister
             };
 
             //Act

@@ -4,7 +4,6 @@ using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Presentation.Controllers.Site.Admin;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.UserServices.Interface;
-using MadPay724.Test.UnitTests.Mock.Data;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Linq;
@@ -15,6 +14,7 @@ using MadPay724.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System;
+using MadPay724.Test.DataInput;
 
 namespace MadPay724.Test.UnitTests.Controllers
 {
@@ -41,8 +41,8 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task GetUser_Can_GetHimSelfUser()
         {
             //Arrange
-            var user = UserControllerData.GetUser();
-            var userDetailDto = UserControllerData.GetUserDetailDto();
+            var user = UserControllerMockData.GetUser();
+            var userDetailDto = UserControllerMockData.GetUserDetailDto();
             _moqRepo.Setup(o => o.UserRepository.GetManyAsync(It.IsAny<Expression<Func<User,bool>>>(), It.IsAny<Func<IQueryable<User>,IOrderedQueryable<User>>>(), It.IsAny<string>())).ReturnsAsync(user);
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(userDetailDto);
 
