@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System;
 using MadPay724.Test.DataInput;
+using MadPay724.Test.IntegrationTests.Providers;
 
 namespace MadPay724.Test.UnitTests.Controllers
 {
@@ -38,12 +39,12 @@ namespace MadPay724.Test.UnitTests.Controllers
         }
         #region GetUserTests
         [Fact]
-        public async Task GetUser_Can_GetHimSelfUser()
+        public async Task GetUser_Succsess()
         {
             //Arrange
             var user = UserControllerMockData.GetUser();
             var userDetailDto = UserControllerMockData.GetUserDetailDto();
-            _moqRepo.Setup(o => o.UserRepository.GetManyAsync(It.IsAny<Expression<Func<User,bool>>>(), It.IsAny<Func<IQueryable<User>,IOrderedQueryable<User>>>(), It.IsAny<string>())).ReturnsAsync(user);
+            _moqRepo.Setup(o => o.UserRepository.GetManyAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<Func<IQueryable<User>, IOrderedQueryable<User>>>(), It.IsAny<string>())).ReturnsAsync(user);
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(userDetailDto);
 
             //Act
@@ -54,118 +55,114 @@ namespace MadPay724.Test.UnitTests.Controllers
             Assert.IsType<UserDetailDto>(okResult.Value);
             Assert.Equal(200, okResult.StatusCode);
         }
-        [Fact]
-        public async Task GetUser_Cant_GetAnotherUser()
-        {
-            //Arrange
-
-            //Act
-
-            //Assert
-        }
         #endregion
+
         #region UpdateUserTests
         [Fact]
-        public async Task UpdateUser_Cant_UpdateAnotherUser()
+        public async Task UpdateUser_Successs()
         {
             //Arrange
+            var user = UserControllerMockData.GetUser();
+            //var userDetailDto = UserControllerMockData.GetUserDetailDto();
+            _moqRepo.Setup(o => o.UserRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(user.First());
+            _moqRepo.Setup(o => o.UserRepository.Update(It.IsAny<User>()));
+            _moqMapper.Setup(o => o.Map(It.IsAny<UserForUpdateDto>(), It.IsAny<User>())).Returns(user.First());
+            _moqRepo.Setup(o => o.SaveAsync()).ReturnsAsync(true);
 
             //Act
-
-
+            var result = await _controller.UpdateUser(It.IsAny<string>(), It.IsAny<UserForUpdateDto>());
+            var okResult = result as OkResult;
             //Assert
-            //var value = response.Content.ReadAsStringAsync();
-            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            Assert.NotNull(okResult);
+            Assert.Equal(200, okResult.StatusCode);
+            _moqRepo.Verify(o => o.UserRepository.Update(It.IsAny<User>()), Times.Once());
+
         }
+
         [Fact]
-        public async Task UpdateUser_Can_UpdateHimSelfUser()
+        public async Task UpdateUser_Fail()
         {
             //Arrange
+            var user = UserControllerMockData.GetUser();
+            //var userDetailDto = UserControllerMockData.GetUserDetailDto();
+            _moqRepo.Setup(o => o.UserRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(user.First());
+            _moqRepo.Setup(o => o.UserRepository.Update(It.IsAny<User>()));
+            _moqMapper.Setup(o => o.Map(It.IsAny<UserForUpdateDto>(), It.IsAny<User>())).Returns(user.First());
+            _moqRepo.Setup(o => o.SaveAsync()).ReturnsAsync(false);
 
             //Act
-
-
+            var result = await _controller.UpdateUser(It.IsAny<string>(), It.IsAny<UserForUpdateDto>());
+            var badResult = result as BadRequestResult;
             //Assert
-            //var value = response.Content.ReadAsStringAsync();
-            //response.EnsureSuccessStatusCode();
-            //response.StatusCode.Should().Be(HttpStatusCode.OK);
+            Assert.NotNull(badResult);
+            Assert.Equal(400, badResult.StatusCode);
+
         }
+
         [Fact]
-        public async Task UpdateUser_ModelStateError()
+        public void UpdateUser_ModelStateError()
         {
             //Arrange
-
-            //Arrange
+            var controller = new ModelStateControllerTests();
 
             //Act
-
+            controller.ValidateModelState(UnitTestDataInput.userForUpdate_Fail_MoldelState);
+            var modelState = controller.ModelState;
 
 
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            //response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            //Assert.Equal(4, modelState.Keys.Count());
-            //Assert.False(modelState.IsValid);
-            //Assert.True(modelState.ContainsKey("Name") && modelState.ContainsKey("Name") &&
-            //    modelState.ContainsKey("Name") && modelState.ContainsKey("Name"));
-
+            Assert.Equal(4, modelState.Keys.Count());
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("Name") && modelState.ContainsKey("Name") &&
+                modelState.ContainsKey("Name") && modelState.ContainsKey("Name"));
         }
         #endregion
         #region ChangeUserPasswordTests
         [Fact]
-        public async Task ChangeUserPassword_Cant_ChangeUserPasswordAnotherUser()
+        public async Task ChangeUserPassword_Success()
         {
             //Arrange
-
-
+            _moqUserService.Setup(o => o.GetUserForChangingPassword(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UserControllerMockData.GetUser().First());
+            _moqUserService.Setup(o => o.UpdateUserPassword(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(true);
+            //Act
+            var result = await _controller.ChangeUserPassword(It.IsAny<string>(), UnitTestDataInput.passwordForChange);
+            var okResult = result as OkObjectResult;
 
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            Assert.NotNull(okResult);
+            Assert.Equal(200, okResult.StatusCode);
         }
+
         [Fact]
-        public async Task ChangeUserPassword_Can_ChangeUserPasswordHimSelfUser()
+        public void ChangeUserPassword_ModelStateError()
         {
             //Arrange
+            var controller = new ModelStateControllerTests();
 
             //Act
-
-
-
-            //Assert
-            //response.EnsureSuccessStatusCode();
-            //response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-        [Fact]
-        public async Task ChangeUserPassword_ModelStateError()
-        {
-            //Arrange
-
-
-            //Act
-
+            controller.ValidateModelState(UnitTestDataInput.passwordForChange_Fail_ModelState);
+            var modelState = controller.ModelState;
 
 
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            //response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            //Assert.Equal(2, modelState.Keys.Count());
-            //Assert.False(modelState.IsValid);
-            //Assert.True(modelState.ContainsKey("NewPassword") && modelState.ContainsKey("OldPassword"));
+            Assert.Equal(2, modelState.Keys.Count());
+            Assert.False(modelState.IsValid);
+            Assert.True(modelState.ContainsKey("NewPassword") && modelState.ContainsKey("OldPassword"));
 
         }
         [Fact]
-        public async Task ChangeUserPassword_Cant_WrongOldPassword()
+        public async Task ChangeUserPassword_Fail_WrongOldPassword()
         {
             //Arrange
-
+            _moqUserService.Setup(o => o.GetUserForChangingPassword(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
+            _moqUserService.Setup(o => o.UpdateUserPassword(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(true);
             //Act
-
-
+            var result = await _controller.ChangeUserPassword(It.IsAny<string>(),UnitTestDataInput.passwordForChange );
+            var badResult = result as BadRequestObjectResult;
 
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            //Assert.False(valueObj.Status);
-            //Assert.Equal(Resource.ErrorMessages.WrongPassword, valueObj.Message);
+            Assert.NotNull(badResult);
+            Assert.Equal(400, badResult.StatusCode);
         }
 
         #endregion

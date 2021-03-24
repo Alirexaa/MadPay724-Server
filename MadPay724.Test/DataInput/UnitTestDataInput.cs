@@ -67,5 +67,27 @@ namespace MadPay724.Test.DataInput
             OldPassword = "123453216789"
         };
 
+        public static readonly UserForUpdateDto userForUpdate_Fail_MoldelState = new UserForUpdateDto
+        {
+            Name = string.Empty,
+            Address = string.Empty,
+            PhoneNumber = string.Empty,
+            Gender = true,
+            City = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio"
+        };
+
+        public static readonly PasswordForChangeDto passwordForChange = new PasswordForChangeDto
+        {
+            OldPassword = "123456789",
+            NewPassword = "123456789"
+            
+        };
+
+        public static readonly PasswordForChangeDto passwordForChange_Fail_ModelState = new PasswordForChangeDto
+        {
+            NewPassword = string.Empty,
+            OldPassword = string.Empty
+        };
+
     }
 }

@@ -127,34 +127,19 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             var request = new
             {
                 Url = "/site/admin/user/" + userIdHimSelf,
-                Body = new UserForUpdateDto
-                {
-                    Name = string.Empty,
-                    Address = string.Empty,
-                    PhoneNumber = string.Empty,
-                    Gender = true,
-                    City = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tatio"
-                }
+                Body = UnitTestDataInput.userForUpdate_Fail_MoldelState
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
 
-            var controller = new ModelStateControllerTests();
 
             //Act
 
             var response = await _client.PutAsync(request.Url, ContentHelper.GetStringContent(request.Body));
             var value = response.Content.ReadAsStringAsync();
 
-            controller.ValidateModelState(request.Body);
-            var modelState = controller.ModelState;
-
             //Assert
-            //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            Assert.Equal(4, modelState.Keys.Count());
-            Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("Name") && modelState.ContainsKey("Name") &&
-                modelState.ContainsKey("Name") && modelState.ContainsKey("Name"));
+            
 
         }
         #endregion
@@ -204,29 +189,22 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             var request = new
             {
                 Url = "/site/admin/user/ChangeUserPassword/" + userIdHimSelf,
-                Body = new PasswordForChangeDto
-                {
-                    NewPassword = string.Empty,
-                    OldPassword = string.Empty
-                }
+                Body = UnitTestDataInput.passwordForChange_Fail_ModelState
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
 
-            var controller = new ModelStateControllerTests();
+           
 
             //Act
 
             var response = await _client.PutAsync(request.Url, ContentHelper.GetStringContent(request.Body));
 
-            controller.ValidateModelState(request.Body);
-            var modelState = controller.ModelState;
+            
 
             //Assert
             //response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            Assert.Equal(2, modelState.Keys.Count());
-            Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("NewPassword") && modelState.ContainsKey("OldPassword"));
+            
 
         }
         [Fact]

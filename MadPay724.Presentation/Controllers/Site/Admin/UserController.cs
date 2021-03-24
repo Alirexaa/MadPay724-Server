@@ -84,8 +84,8 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         public async Task<IActionResult> ChangeUserPassword(string id, PasswordForChangeDto passwordForChangeDto)
         {
 
-            var userFromReo = await _userService.GetUserForChangingPassword(id, passwordForChangeDto.OldPassword);
-            if (userFromReo == null)
+            var userFromRepo = await _userService.GetUserForChangingPassword(id, passwordForChangeDto.OldPassword);
+            if (userFromRepo == null)
             {
                 return BadRequest(new ReturnMessage()
                 {
@@ -94,7 +94,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                 });
             }
 
-            var result = await _userService.UpdateUserPassword(userFromReo, passwordForChangeDto.NewPassword);
+            var result = await _userService.UpdateUserPassword(userFromRepo, passwordForChangeDto.NewPassword);
 
             if (result)
                 return Ok(new ReturnMessage()
