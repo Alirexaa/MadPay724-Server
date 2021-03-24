@@ -1,4 +1,5 @@
-﻿using MadPay724.Common.ErrorAndMessge;
+﻿using AutoMapper;
+using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
@@ -31,14 +32,16 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
         private readonly IAuthService _authService;
         private readonly IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
+        private readonly IMapper _mapper;
 
         public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService,
-            IConfiguration config,ILogger<AuthController> logger)
+            IConfiguration config,ILogger<AuthController> logger,IMapper mapper)
         {
             _db = dbContext;
             _authService = authService;
             _config = config;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -56,7 +59,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
                     Message = Resource.ErrorMessages.ExistUserMessage,
                     Code = "409"
 
-                });      
+                });
             var userToCreate = new User()
             {
                 UserName = userForRegister.UserName,
@@ -72,17 +75,17 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
 
             var photoToCreate = new Photo()
             {
-                UserId =userToCreate.Id,
-                Description= "Profile Pic",
-                Alt= "Profile Pic",
-                IsMain= true,
-                Url= string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}/wwwroot/Files/Images/ProfilePic.png"),
-                PublicId="0",
+                UserId = userToCreate.Id,
+                Description = "Profile Pic",
+                Alt = "Profile Pic",
+                IsMain = true,
+                Url = string.Format($"{Request.Scheme}://{Request.Host.Value ?? ""}{Request.PathBase.Value ?? "" }/wwwroot/Files/Images/ProfilePic.png"),
+                PublicId = "0",
             };
 
             var createdUser = await _authService.Register(userToCreate, photoToCreate, userForRegister.Password);
-
-            return StatusCode(201);
+            var userForReturn = _mapper.Map<UserDetailDto>(createdUser);
+            return CreatedAtRoute("GetUser", new { controller = "User", id= createdUser.Id }, userForReturn);
         }
 
         [AllowAnonymous]

@@ -70,21 +70,12 @@ namespace MadPay724.Test.IntegrationTests.Controllers
                 }
             };
 
-            var controller = new ModelStateControllerTests();
-
             //Act
 
             var response = await _client.PostAsync(request.Url, ContentHelper.GetStringContent(request.Body));
 
-            controller.ValidateModelState(request.Body);
-            var modelState = controller.ModelState;
-
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            Assert.Equal(2, modelState.Keys.Count());
-            Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("Password") && modelState.ContainsKey("UserName"));
-
         }
         #endregion
         #region RegisterTests
@@ -135,20 +126,16 @@ namespace MadPay724.Test.IntegrationTests.Controllers
                 }
             };
 
-            var controller = new ModelStateControllerTests();
-
+            
             //Act
 
             var response = await _client.PostAsync(request.Url, ContentHelper.GetStringContent(request.Body));
 
-            controller.ValidateModelState(request.Body);
-            var modelState = controller.ModelState;
+           
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            Assert.Equal(4, modelState.Keys.Count());
-            Assert.False(modelState.IsValid);
-            Assert.True(modelState.ContainsKey("Password") && modelState.ContainsKey("UserName") && modelState.ContainsKey("Password") && modelState.ContainsKey("UserName"));
+            
 
         }
         #endregion
