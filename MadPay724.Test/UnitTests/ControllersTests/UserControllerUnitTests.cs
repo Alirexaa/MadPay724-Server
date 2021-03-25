@@ -17,7 +17,7 @@ using System;
 using MadPay724.Test.DataInput;
 using MadPay724.Test.IntegrationTests.Providers;
 
-namespace MadPay724.Test.UnitTests.Controllers
+namespace MadPay724.Test.UnitTests.ControllersTests
 {
     public class UserControllerUnitTests
     {
@@ -42,7 +42,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task GetUser_Succsess()
         {
             //Arrange
-            var users = UnitTestDataInput.Users;
+            var users = UnitTestDataInput.users;
             var userDetailDto = UnitTestDataInput.userDetailDto;
             _moqRepo.Setup(o => o.UserRepository.GetManyAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<Func<IQueryable<User>, IOrderedQueryable<User>>>(), It.IsAny<string>())).ReturnsAsync(users);
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(userDetailDto);
@@ -62,7 +62,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task UpdateUser_Successs()
         {
             //Arrange
-            var users = UnitTestDataInput.Users;
+            var users = UnitTestDataInput.users;
             //var userDetailDto = UserControllerMockData.GetUserDetailDto();
             _moqRepo.Setup(o => o.UserRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(users.First());
             _moqRepo.Setup(o => o.UserRepository.Update(It.IsAny<User>()));
@@ -83,7 +83,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task UpdateUser_Fail()
         {
             //Arrange
-            var users = UnitTestDataInput.Users;
+            var users = UnitTestDataInput.users;
             //var userDetailDto = UserControllerMockData.GetUserDetailDto();
             _moqRepo.Setup(o => o.UserRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(users.First());
             _moqRepo.Setup(o => o.UserRepository.Update(It.IsAny<User>()));
@@ -122,7 +122,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task ChangeUserPassword_Success()
         {
             //Arrange
-            _moqUserService.Setup(o => o.GetUserForChangingPassword(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First());
+            _moqUserService.Setup(o => o.GetUserForChangingPassword(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
             _moqUserService.Setup(o => o.UpdateUserPassword(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(true);
             //Act
             var result = await _controller.ChangeUserPassword(It.IsAny<string>(), UnitTestDataInput.passwordForChange);

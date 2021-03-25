@@ -19,7 +19,7 @@ using MadPay724.Data.Dto.Services;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace MadPay724.Test.UnitTests.Controllers
+namespace MadPay724.Test.UnitTests.ControllersTests
 {
     public class PhotoControllerUnitTests
     {
@@ -43,7 +43,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task GetPhoto_Success()
         {
             //Arrange
-            _moqRepo.Setup(o => o.PhotoRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First().Photos.First()) ;
+            _moqRepo.Setup(o => o.PhotoRepository.GetByIdAsync(It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First().Photos.First()) ;
             _moqMapper.Setup(o => o.Map<PhotoForReturnUserProfileDto>(It.IsAny<Photo>())).Returns(UnitTestDataInput.photoForReturnUserProfile);
 
             //Act

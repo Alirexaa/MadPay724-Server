@@ -27,6 +27,7 @@ using MadPay724.Services.Upload.Interface;
 using MadPay724.Services.Upload.Service;
 using Microsoft.Extensions.Logging;
 using MadPay724.Presentation.Helper.Filters;
+using MadPay724.Common.Helper.Interface;
 
 namespace MadPay724.Presentation
 {
@@ -48,6 +49,7 @@ namespace MadPay724.Presentation
             services.AddCors();
             //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUtilities, Utilities>();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<ISeedService, SeedService>();
             services.AddScoped<IUnitOfWork<MadpayDbContext>, UnitOfWork<MadpayDbContext>>();

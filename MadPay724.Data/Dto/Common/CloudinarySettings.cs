@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MadPay724.Common.Helper
+namespace MadPay724.Data.Dto.Common
 {
     public class CloudinarySettings
     { 

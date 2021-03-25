@@ -84,8 +84,24 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             };
 
             var createdUser = await _authService.Register(userToCreate, photoToCreate, userForRegister.Password);
-            var userForReturn = _mapper.Map<UserDetailDto>(createdUser);
-            return CreatedAtRoute("GetUser", new { controller = "User", id= createdUser.Id }, userForReturn);
+            if (createdUser != null)
+            {
+                var userForReturn = _mapper.Map<UserDetailDto>(createdUser);
+                return CreatedAtRoute("GetUser", new { controller = "User", id = createdUser.Id }, userForReturn);
+            }
+            else
+            {
+                _logger.LogWarning($"user : {userForRegister.Name}  Email: {userForRegister.UserName} {Resource.ErrorMessages.DbErrorRegister} ");
+                return BadRequest(new ReturnMessage()
+                {
+                    Code = "400",
+                    Message = Resource.ErrorMessages.NoRegister,
+                    Status = false,
+                    Title= Resource.ErrorMessages.Error
+                });
+            }
+
+            
         }
 
         [AllowAnonymous]

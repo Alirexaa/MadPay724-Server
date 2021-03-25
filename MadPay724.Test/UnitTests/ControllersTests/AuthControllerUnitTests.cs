@@ -18,8 +18,9 @@ using MadPay724.Data.Dto.Site.Admin.User;
 using AutoMapper;
 using MadPay724.Test.IntegrationTests.Providers;
 using Microsoft.AspNetCore.Http;
+using MadPay724.Common.ErrorAndMessge;
 
-namespace MadPay724.Test.UnitTests.Controllers
+namespace MadPay724.Test.UnitTests.ControllersTests
 {
 
     public class AuthControllerUnitTests
@@ -43,11 +44,14 @@ namespace MadPay724.Test.UnitTests.Controllers
             _controller = new AuthController(_moqRepo.Object, _moqAuthService.Object, _moqConfig.Object, _moqLogger.Object, _moqMapper.Object);
 
         }
+
+        #region LoginTets
+
         [Fact]
         public async Task Login_Success()
         {
             //Arrange
-            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First());
+            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
 
             _moqConfigSection.Setup(o => o.Value).Returns("1234567890abcdefghijklmnopqrstwxrz");
             _moqConfig.Setup(o => o.GetSection(It.IsAny<string>())).Returns(_moqConfigSection.Object);
@@ -96,12 +100,16 @@ namespace MadPay724.Test.UnitTests.Controllers
             Assert.True(modelState.ContainsKey("Password") && modelState.ContainsKey("UserName"));
         }
 
+        #endregion
+
+        #region Register
+
         [Fact]
         public async Task Register_Success()
         {
             //Arrange
             _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(false);
-            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First());
+            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UnitTestDataInput.userDetailDto);
             //Act
 
@@ -136,6 +144,31 @@ namespace MadPay724.Test.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Register_Fail_DbError()
+        {
+            //Arrange
+            _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(false);
+            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
+ 
+            //Act
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Scheme = "test";
+            _controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = httpContext
+            };
+
+            var result = await _controller.Register(UnitTestDataInput.userForRegister_CanRegister);
+            var createAtRouteResult = result as BadRequestObjectResult;
+
+            //Assert
+            Assert.NotNull(createAtRouteResult);
+            Assert.Equal(400, createAtRouteResult.StatusCode);
+            Assert.IsType<ReturnMessage>(createAtRouteResult.Value);
+        }
+
+        [Fact]
         public void Register_Fail_ModelStateError()
         {
             //Arrange
@@ -156,6 +189,8 @@ namespace MadPay724.Test.UnitTests.Controllers
             Assert.False(modelState.IsValid);
             Assert.True(modelState.ContainsKey("Password") && modelState.ContainsKey("UserName") && modelState.ContainsKey("Password") && modelState.ContainsKey("UserName"));
         }
+
+        #endregion
 
     }
 }

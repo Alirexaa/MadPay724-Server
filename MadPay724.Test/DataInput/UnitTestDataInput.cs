@@ -20,7 +20,7 @@ namespace MadPay724.Test.DataInput
 
 
 
-        public static readonly IEnumerable<User> Users = new List<User>()
+        public static readonly IEnumerable<User> users = new List<User>()
             {
                 new User
                 {

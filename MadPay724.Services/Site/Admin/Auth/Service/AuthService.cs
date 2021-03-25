@@ -2,29 +2,34 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using MadPay724.Common.Helper;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Services.Site.Admin.Auth.Interface;
+using MadPay724.Common.Helper.Interface;
 
 namespace MadPay724.Services.Site.Admin.Auth.Service
 {
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork<MadpayDbContext> _db;
-        public AuthService(IUnitOfWork<MadpayDbContext> dbContext)
+        private readonly IUtilities _utilities;
+        public AuthService(IUnitOfWork<MadpayDbContext> dbContext, IUtilities utilitie)
         {
             _db = dbContext;
+            _utilities = utilitie;
         }
         public async Task<User> Login(string username, string password)
         {
-            var user = await _db.UserRepository.GetAsync(p => p.UserName == username);
+            var users = await _db.UserRepository.GetManyAsync(p => p.UserName == username, null, "Photos");
+            var user = users.SingleOrDefault();
             if (user == null)
             {
                 return null;
             }
-            if (!Utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            if (!_utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }
@@ -34,14 +39,18 @@ namespace MadPay724.Services.Site.Admin.Auth.Service
         public async Task<User> Register(User user,Photo photo, string password)
         {
             byte[] passwordHash, passwordSalt;
-            Utilities.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            _utilities.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
             await _db.UserRepository.InsertAsync(user);
             await _db.PhotoRepository.InsertAsync(photo);
-            await _db.SaveAsync();
-            return user;
+            if (await _db.SaveAsync())
+            {
+                return user;
+            }
+            return null;
+            
         }
     }
 }

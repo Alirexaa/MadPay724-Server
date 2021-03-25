@@ -61,6 +61,15 @@ namespace MadPay724.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to user was not register in db.
+        /// </summary>
+        public static string DbErrorRegister {
+            get {
+                return ResourceManager.GetString("DbErrorRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to error.
         /// </summary>
         public static string Error {
@@ -84,6 +93,15 @@ namespace MadPay724.Resource {
         public static string NoChangedPassword {
             get {
                 return ResourceManager.GetString("NoChangedPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regiser was not done..
+        /// </summary>
+        public static string NoRegister {
+            get {
+                return ResourceManager.GetString("NoRegister", resourceCulture);
             }
         }
         
