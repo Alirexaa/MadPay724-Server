@@ -10,7 +10,8 @@ namespace MadPay724.Test.DataInput
 {
     public static class UnitTestDataInput
     {
-        public static readonly string aToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NTg3MjQ2LCJleHAiOjE2MTY2NzM2NDYsImlhdCI6MTYxNjU4NzI0Nn0.W0v5wKc62JnmNZvOR6YMK8eA8cirBpPPm8zQsfBTqzw";
+        public static readonly string SiteAdminVersion = "V1";
+        public static readonly string aToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NzEyOTM3LCJleHAiOjE2MTY3OTkzMzcsImlhdCI6MTYxNjcxMjkzN30.8OnDzrrRcR15dthSTUdhovdbpXFKUegJGo1i7msVygs";
 
         public static readonly string userLoggedInUserName = "alireza@gmail.com";
         public static readonly string userLoggedInPassword = "123456789";
@@ -75,7 +76,7 @@ namespace MadPay724.Test.DataInput
 
     public static readonly UserForRegisterDto userForRegister_CanRegister = new UserForRegisterDto
     {
-        UserName = "John@gmail.com",
+        UserName = "Johniaaaa@gmail.com",
         Name = "John",
         Password = "123456789",
         PhoneNumber = "00123456789"

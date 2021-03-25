@@ -20,11 +20,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace MadPay724.Presentation.Controllers.Site.Admin
+namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 {
-    [ApiExplorerSettings(GroupName = "SiteApi")]
+    [ApiExplorerSettings(GroupName = "SiteApiV1")]
     [Authorize]
-    [Route("site/admin/[controller]")]
+    [Route("site/admin/v1/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {

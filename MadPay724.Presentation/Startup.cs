@@ -28,6 +28,8 @@ using MadPay724.Services.Upload.Service;
 using Microsoft.Extensions.Logging;
 using MadPay724.Presentation.Helper.Filters;
 using MadPay724.Common.Helper.Interface;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MadPay724.Presentation
 {
@@ -44,7 +46,11 @@ namespace MadPay724.Presentation
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc(opt => opt.EnableEndpointRouting = false);
+            services.AddMvc(config =>
+            {
+                config.EnableEndpointRouting = false;
+                config.ReturnHttpNotAcceptable = true;
+            });
             //services.AddControllers();
             services.AddCors();
             //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
@@ -72,17 +78,25 @@ namespace MadPay724.Presentation
 
             });
 
+            //services.AddApiVersioning(opt=> {
+            //    opt.ApiVersionReader = new MediaTypeApiVersionReader();
+            //    opt.AssumeDefaultVersionWhenUnspecified = true;
+            //    opt.ReportApiVersions = true;
+            //    opt.DefaultApiVersion = new ApiVersion(1, 0);
+            //    opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
+            //});
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("SiteApi", new OpenApiInfo { Title = "Site Api", Version = "v1" });
-                c.SwaggerDoc("PayApi", new OpenApiInfo { Title = "Pay Api", Contact = new OpenApiContact { Name = "Alireza", Email = "Alireza@gmail.com" }, Description = "Api for online payment", Version = "v1" });
+                c.SwaggerDoc("SiteApiV1", new OpenApiInfo { Title = "Site Api", Version = "v1" });
+                c.SwaggerDoc("PayApiV1", new OpenApiInfo { Title = "Pay Api", Contact = new OpenApiContact { Name = "Alireza Baloochi", Email = "Dev.AlirezaBaloochi@gmail.com" }, Description = "Api for online payment", Version = "v1" });
                 c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
                     In = ParameterLocation.Header,
                     Description = "Type into the textbox: Bearer {your JWT token}.",
-                   
+
 
                 });
                 //c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -94,11 +108,11 @@ namespace MadPay724.Presentation
                 //});  
 
             });
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ISeedService seeder)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedService seeder)
         {
             if (env.IsDevelopment())
             {
@@ -132,8 +146,8 @@ namespace MadPay724.Presentation
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("SiteApi/swagger.json", "Site Api v1");
-                c.SwaggerEndpoint("PayApi/swagger.json", "Pay Api v1");
+                c.SwaggerEndpoint("SiteApiV1/swagger.json", "Site Api v1");
+                c.SwaggerEndpoint("PayApiV1/swagger.json", "Pay Api v1");
             });
 
 

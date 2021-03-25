@@ -36,7 +36,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             string photoId = UnitTestDataInput.userLoggedInPhotoId;
-            var request = $"/site/admin/Users/{userIdHimSelf}/photos/{photoId}";
+            var request = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Users/{userIdHimSelf}/photos/{photoId}";
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
             var response = await _client.GetAsync(request);
@@ -52,7 +52,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string photoId = UnitTestDataInput.userLoggedInPhotoId;
             var request = new
             {
-                Url = $"/site/admin/Users/{userIdAnotherUser}/photos/{photoId}"
+                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Users/{userIdAnotherUser}/photos/{photoId}"
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
@@ -106,7 +106,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
 
             var request = new
             {
-                Url = $"/site/admin/Users/{userIdHimSelf}/photos",
+                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Users/{userIdHimSelf}/photos",
                 Body = new PhotoFromUserProfileDto
                 {
                     PublicId = "1",
@@ -126,7 +126,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             string userIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
             string photoId = UnitTestDataInput.userLoggedInPhotoId;
-            var request = $"/site/admin/Users/{userIdAnotherUser}/photos/{photoId}";
+            var request = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Users/{userIdAnotherUser}/photos/{photoId}";
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             var response = await _client.GetAsync(request);
             //Assert
@@ -161,7 +161,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
 
             var request = new
             {
-                Url = $"/site/admin/Users/{userIdHimSelf}/photos",
+                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Users/{userIdHimSelf}/photos",
                 Body = new PhotoFromUserProfileDto
                 {
                     PublicId = "1",

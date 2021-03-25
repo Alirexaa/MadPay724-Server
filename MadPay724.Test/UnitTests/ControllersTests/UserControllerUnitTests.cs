@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
-using MadPay724.Presentation.Controllers.Site.Admin;
+using MadPay724.Presentation.Controllers.Site.Admin.V1;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.UserServices.Interface;
 using Microsoft.Extensions.Logging;

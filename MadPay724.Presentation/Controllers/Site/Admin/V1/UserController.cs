@@ -17,12 +17,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MadPay724.Presentation.Controllers.Site.Admin
+namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 {
-    [ApiExplorerSettings(GroupName = "SiteApi")]
+    [ApiExplorerSettings(GroupName = "SiteApiV1")]
     [Authorize]
     //[ServiceFilter(typeof(LogFilter))]
-    [Route("site/admin/[controller]")]
+    [Route("site/admin/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -45,7 +45,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
             var usersToReturn = _mapper.Map<IEnumerable<UsersListDto>>(users);
             return Ok(usersToReturn);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name = "GetUser")]
         [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> GetUser(string id)
         {
