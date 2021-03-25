@@ -45,7 +45,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin
 
             var file = photoFromUserProfileDto.File;
             //var uploadResult = await _uploadService.UploadProfileImageToCloudinary(file,userId);
-            string baseUrl = string.Format($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}");
+            string baseUrl = string.Format($"{Request.Scheme ?? ""}://{Request.Host.Value ?? ""}{Request.PathBase.Value ?? ""}");
 
             //var uploadResult = await _uploadService.UploadProfileImageToLocal(file,userId,_env.WebRootPath,baseUrl);
 

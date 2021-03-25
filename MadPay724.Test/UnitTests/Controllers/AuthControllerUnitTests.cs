@@ -47,7 +47,7 @@ namespace MadPay724.Test.UnitTests.Controllers
         public async Task Login_Success()
         {
             //Arrange
-            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UserControllerMockData.GetUser().First());
+            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First());
 
             _moqConfigSection.Setup(o => o.Value).Returns("1234567890abcdefghijklmnopqrstwxrz");
             _moqConfig.Setup(o => o.GetSection(It.IsAny<string>())).Returns(_moqConfigSection.Object);
@@ -101,8 +101,8 @@ namespace MadPay724.Test.UnitTests.Controllers
         {
             //Arrange
             _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(false);
-            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(UserControllerMockData.GetUser().First());
-            _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UserControllerMockData.GetUserDetailDto());
+            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.Users.First());
+            _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UnitTestDataInput.userDetailDto);
             //Act
 
             var httpContext = new DefaultHttpContext();
