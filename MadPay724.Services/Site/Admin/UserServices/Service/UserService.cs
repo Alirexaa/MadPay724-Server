@@ -26,7 +26,7 @@ namespace MadPay724.Services.Site.Admin.UserServices.Service
             if (user == null)
                 return null;
 
-            if (_utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            if (!_utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }
