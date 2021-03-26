@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MadPay724.Data.Dto.Common.ION;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

@@ -2,6 +2,7 @@
 using MadPay724.Common.ErrorAndMessge;
 using MadPay724.Common.Helper;
 using MadPay724.Data.DatabaseContext;
+using MadPay724.Data.Dto.Common.ION;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
 using MadPay724.Presentation.Helper.Filters;
@@ -38,14 +39,23 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
             _userService = userService;
             _logger = logger;
         }
-        [HttpGet]
+
+        [AllowAnonymous]
+        [HttpGet(Name = nameof(GetUsers))]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _db.UserRepository.GetManyAsync(null, null, "BankCards,Photos");
             var usersToReturn = _mapper.Map<IEnumerable<UsersListDto>>(users);
+
+            //var collectionLink = Link.ToCollection(nameof(GetUsers));
+            //var collection = new Collection<UsersListDto>()
+            //{
+            //    Self = collectionLink,
+            //    Value = usersToReturn.ToArray()
+            //};
             return Ok(usersToReturn);
         }
-        [HttpGet("{id}",Name = "GetUser")]
+        [HttpGet("{id}", Name = nameof(GetUser))]
         [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> GetUser(string id)
         {
@@ -90,7 +100,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
                 return BadRequest(new ReturnMessage()
                 {
                     Message = Resource.ErrorMessages.WrongPassword,
-                    Status =false
+                    Status = false
                 });
             }
 

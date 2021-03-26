@@ -31,6 +31,8 @@ using MadPay724.Common.Helper.Interface;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using MadPay724.Data.Dto.Common.ION;
+using MadPay724.Presentation.Helpers.Filters;
 
 namespace MadPay724.Presentation
 {
@@ -63,6 +65,7 @@ namespace MadPay724.Presentation
                 config.ReturnHttpNotAcceptable = true;
                 config.SslPort = _httpsPort;
                 config.Filters.Add(typeof(RequireHttpsAttribute));
+                //config.Filters.Add(typeof(LinkRewritingFilter));
 
             });
             //services.AddControllers();
