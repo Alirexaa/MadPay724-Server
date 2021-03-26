@@ -30,14 +30,25 @@ using MadPay724.Presentation.Helper.Filters;
 using MadPay724.Common.Helper.Interface;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace MadPay724.Presentation
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly int? _httpsPort;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            if (env.IsDevelopment())
+            {
+                var launchJsonConfig = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("Properties\\launchSettings.json")
+                    .Build();
+                _httpsPort = launchJsonConfig.GetValue<int>("iisSettings:iisExpress:sslPort");
+            }
+
         }
 
         public IConfiguration Configuration { get; }
@@ -50,6 +61,9 @@ namespace MadPay724.Presentation
             {
                 config.EnableEndpointRouting = false;
                 config.ReturnHttpNotAcceptable = true;
+                config.SslPort = _httpsPort;
+                config.Filters.Add(typeof(RequireHttpsAttribute));
+
             });
             //services.AddControllers();
             services.AddCors();
@@ -85,6 +99,14 @@ namespace MadPay724.Presentation
             //    opt.DefaultApiVersion = new ApiVersion(1, 0);
             //    opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             //});
+
+            services.AddHsts(opt =>
+            {
+                opt.MaxAge = TimeSpan.FromDays(180);
+                opt.IncludeSubDomains = true;
+                opt.Preload = true;
+
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -133,6 +155,7 @@ namespace MadPay724.Presentation
                         }
                     });
                 });
+                app.UseHsts();
             }
 
             //seeder.SeedUsers();
