@@ -127,8 +127,13 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         public async Task Register_Success()
         {
             //Arrange
-            _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(false);
-            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
+
+            _moqUserManager.Setup(o => o.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
+
+            _moqUserManager.Setup(o => o.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+
+            _moqAuthService.Setup(o => o.AddUserPhoto(It.IsAny<Photo>()));
+
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UnitTestDataInput.userDetailDto);
             //Act
 
@@ -151,8 +156,7 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         public async Task Register_Fail()
         {
             //Arrange
-            _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(true);
-
+            _moqUserManager.Setup(o => o.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
             //Act
             var result = await _controller.Register(UnitTestDataInput.userForRegister_CanRegister);
             var conflictResult = result as ConflictObjectResult;
@@ -166,9 +170,10 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         public async Task Register_Fail_DbError()
         {
             //Arrange
-            _moqRepo.Setup(o => o.UserRepository.UserExist(It.IsAny<string>())).ReturnsAsync(false);
-            _moqAuthService.Setup(o => o.Register(It.IsAny<User>(), It.IsAny<Photo>(), It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
- 
+            _moqUserManager.Setup(o => o.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
+
+            _moqUserManager.Setup(o => o.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Failed());
+
             //Act
 
             var httpContext = new DefaultHttpContext();

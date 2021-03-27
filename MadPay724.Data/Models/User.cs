@@ -6,6 +6,11 @@ namespace MadPay724.Data.Models
 {
     public class User: IdentityUser<string>
     {
+        public User():base()
+        {
+            Id = Guid.NewGuid().ToString();
+            SecurityStamp = Guid.NewGuid().ToString();
+        }
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 0)]
         public string Name { get; set; }
