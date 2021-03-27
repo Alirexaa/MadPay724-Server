@@ -23,8 +23,8 @@ using System.Threading.Tasks;
 namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
-    [Authorize]
     [Route("site/admin/v1/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -46,7 +46,6 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
@@ -104,7 +103,6 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
             
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {

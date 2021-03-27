@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
-    [Authorize]
     //[ServiceFilter(typeof(LogFilter))]
     [Route("site/admin/v1/[controller]")]
     [ApiController]

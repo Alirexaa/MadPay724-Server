@@ -26,22 +26,20 @@ namespace MadPay724.Services.Site.Admin.Auth.Service
             var users = await _db.UserRepository.GetManyAsync(p => p.UserName == username, null, "Photos");
             var user = users.SingleOrDefault();
             if (user == null)
-            {
                 return null;
-            }
-            if (!_utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                return null;
-            }
+
+            //if (!_utilities.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            //    return null;
+
             return user;
         }
 
-        public async Task<User> Register(User user,Photo photo, string password)
+        public async Task<User> Register(User user, Photo photo, string password)
         {
             byte[] passwordHash, passwordSalt;
             _utilities.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            //user.PasswordHash = passwordHash;
+            //user.PasswordSalt = passwordSalt;
 
             await _db.UserRepository.InsertAsync(user);
             await _db.PhotoRepository.InsertAsync(photo);
@@ -50,7 +48,7 @@ namespace MadPay724.Services.Site.Admin.Auth.Service
                 return user;
             }
             return null;
-            
+
         }
     }
 }

@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
-    [Authorize]
     [Route("site/admin/v1/users/{userId}/photos")]
     [ApiController]
     public class PhotoController : ControllerBase
