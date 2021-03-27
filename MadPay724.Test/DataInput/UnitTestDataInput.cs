@@ -11,11 +11,11 @@ namespace MadPay724.Test.DataInput
     public static class UnitTestDataInput
     {
         public static readonly string SiteAdminVersion = "V1";
-        public static readonly string aToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1YTNhMmEwMi03YmJmLTQxZjEtYjQwMS0yNWU3YmU4OTlkMjQiLCJ1bmlxdWVfbmFtZSI6ImFsaXJlemFAZ21haWwuY29tIiwibmJmIjoxNjE2NzEyOTM3LCJleHAiOjE2MTY3OTkzMzcsImlhdCI6MTYxNjcxMjkzN30.8OnDzrrRcR15dthSTUdhovdbpXFKUegJGo1i7msVygs";
+        public static readonly string aToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1NDY3Y2VlZS01MjE5LTQxYTItOGQzMS05OGEzYmY3Mjk1M2EiLCJ1bmlxdWVfbmFtZSI6InBvcGVjb3BlbGFuZEBiYXJrYXJhbWEuY29tIiwibmJmIjoxNjE2ODU2MjU1LCJleHAiOjE2MTY5NDI2NTUsImlhdCI6MTYxNjg1NjI1NX0.R9nNsqdwbTUDaAdVax9_YaitClBO3aAjQiSvjuhGBMM";
 
-        public static readonly string userLoggedInUserName = "alireza@gmail.com";
+        public static readonly string userLoggedInUserName = "popecopeland@barkarama.com";
         public static readonly string userLoggedInPassword = "123456789";
-        public static readonly string userLoggedInId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24";
+        public static readonly string userLoggedInId = "5467ceee-5219-41a2-8d31-98a3bf72953a";
         public static readonly string userLoggedInPhotoId = "7d1641a4-066b-40e4-ab5c-760536983554";
         public static readonly string userUnLoggedInId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24asdsad";
 
@@ -87,12 +87,12 @@ namespace MadPay724.Test.DataInput
         Name = "alireza",
         Password = "12345678",
         PhoneNumber = "11111111",
-        UserName = "alireza@gmail.com"
+        UserName = "popecopeland@barkarama.com"
     };
 
     public static readonly UserForLoginDto userForLogin_CanLogin = new UserForLoginDto
     {
-        UserName = "alireza@gmail.com",
+        UserName = "popecopeland@barkarama.com",
         Password = "123456789"
     };
 

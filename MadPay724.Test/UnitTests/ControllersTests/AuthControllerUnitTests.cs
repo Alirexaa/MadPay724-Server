@@ -19,6 +19,13 @@ using AutoMapper;
 using MadPay724.Test.IntegrationTests.Providers;
 using Microsoft.AspNetCore.Http;
 using MadPay724.Common.ErrorAndMessge;
+using MadPay724.Common.Helper.Interface;
+using Microsoft.AspNetCore.Identity;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Threading;
+using MadPay724.Test.UnitTests.Providers;
 
 namespace MadPay724.Test.UnitTests.ControllersTests
 {
@@ -30,8 +37,11 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         private readonly Mock<IConfiguration> _moqConfig;
         private readonly Mock<IConfigurationSection> _moqConfigSection;
         private readonly Mock<ILogger<AuthController>> _moqLogger;
-        private readonly AuthController _controller;
         private readonly Mock<IMapper> _moqMapper;
+        private readonly Mock<IUtilities> _moqUtilities;
+        private readonly Mock<FakeUserManager> _moqUserManager;
+        private readonly Mock<FakeSignInManager> _moqSignInManager;
+        private readonly AuthController _controller;
 
         public AuthControllerUnitTests()
         {
@@ -41,7 +51,10 @@ namespace MadPay724.Test.UnitTests.ControllersTests
             _moqConfigSection = new Mock<IConfigurationSection>();
             _moqLogger = new Mock<ILogger<AuthController>>();
             _moqMapper = new Mock<IMapper>();
-            _controller = new AuthController(_moqRepo.Object, _moqAuthService.Object, _moqConfig.Object, _moqLogger.Object, _moqMapper.Object);
+            _moqUtilities = new Mock<IUtilities>();
+            _moqUserManager = new Mock<FakeUserManager>();
+            _moqSignInManager = new Mock<FakeSignInManager>();
+            _controller = new AuthController(_moqRepo.Object, _moqAuthService.Object, _moqConfig.Object, _moqLogger.Object, _moqMapper.Object,_moqUtilities.Object,_moqUserManager.Object,_moqSignInManager.Object);
 
         }
 
@@ -51,10 +64,15 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         public async Task Login_Success()
         {
             //Arrange
-            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
 
-            _moqConfigSection.Setup(o => o.Value).Returns("1234567890abcdefghijklmnopqrstwxrz");
-            _moqConfig.Setup(o => o.GetSection(It.IsAny<string>())).Returns(_moqConfigSection.Object);
+            _moqUserManager.Setup(o => o.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
+            _moqSignInManager.Setup(o => o.CheckPasswordSignInAsync(It.IsAny<User>(),It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(SignInResult.Success);
+
+            _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UnitTestDataInput.userDetailDto);
+
+            _moqUtilities.Setup(o => o.GenerateJwtToken(It.IsAny<User>(), It.IsAny<bool>())).Returns(It.IsAny<string>());
+
+
             //Act
             var result = await _controller.Login(UnitTestDataInput.userForLogin_CanLogin);
             var okResult = result as OkObjectResult;
@@ -67,7 +85,8 @@ namespace MadPay724.Test.UnitTests.ControllersTests
         public async Task Login_Fail()
         {
             //Arrange
-            _moqAuthService.Setup(o => o.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(It.IsAny<User>());
+            _moqUserManager.Setup(o => o.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(UnitTestDataInput.users.First());
+            _moqSignInManager.Setup(o => o.CheckPasswordSignInAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(SignInResult.Failed);
 
             //Act
             var result = await _controller.Login(UnitTestDataInput.userForLogin_Cant_Login);

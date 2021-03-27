@@ -117,12 +117,24 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
         {
 
             var userFromRepo = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+  
+            if (userFromRepo==null)
+            {
+                return Unauthorized(new ReturnMessage()
+                {
+                    Status = false,
+                    Title = Resource.ErrorMessages.Error,
+                    Message = Resource.ErrorMessages.WrongEmailOrPassword,
+                    Code = "401"
+
+                });
+            }
             var result = await _signInManager.CheckPasswordSignInAsync(userFromRepo, userForLoginDto.Password, false);
 
             if (result.Succeeded)
             {
-                var appUser = await _userManager.Users.Include(p => p.Photos)
-                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
+                var appUser = _userManager.Users.Include(p => p.Photos)
+                    .FirstOrDefault(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
 
                 var userForReturn = _mapper.Map<UserDetailDto>(appUser);
 
