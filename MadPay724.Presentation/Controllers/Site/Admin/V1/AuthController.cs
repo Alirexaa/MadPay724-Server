@@ -59,15 +59,17 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
             userForRegister.UserName = userForRegister.UserName.ToLower();
-            if (await _db.UserRepository.UserExist(userForRegister.UserName))
+
+            if (await _userManager.FindByNameAsync(userForRegister.UserName) != null)
+            {
                 return Conflict(new ReturnMessage()
                 {
                     Status = false,
                     Title = Resource.ErrorMessages.Error,
                     Message = Resource.ErrorMessages.ExistUserMessage,
                     Code = "409"
-
                 });
+            }
             var userToCreate = new User()
             {
                 UserName = userForRegister.UserName,
@@ -91,11 +93,14 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
                 PublicId = "0",
             };
 
-            var createdUser = await _authService.Register(userToCreate, photoToCreate, userForRegister.Password);
-            if (createdUser != null)
+
+            var result = await _userManager.CreateAsync(userToCreate, userForRegister.Password);
+
+            if (result.Succeeded)
             {
-                var userForReturn = _mapper.Map<UserDetailDto>(createdUser);
-                return CreatedAtRoute("GetUser", new { controller = "User", id = createdUser.Id }, userForReturn);
+                await _authService.AddUserPhoto(photoToCreate);
+                var userForReturn = _mapper.Map<UserDetailDto>(userToCreate);
+                return CreatedAtRoute("GetUser", new { controller = "User", id = userToCreate.Id }, userForReturn);
             }
             else
             {
@@ -117,8 +122,8 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
         {
 
             var userFromRepo = await _userManager.FindByNameAsync(userForLoginDto.UserName);
-  
-            if (userFromRepo==null)
+
+            if (userFromRepo == null)
             {
                 return Unauthorized(new ReturnMessage()
                 {

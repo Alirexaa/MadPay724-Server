@@ -8,7 +8,8 @@ namespace MadPay724.Services.Site.Admin.Auth.Interface
 {
     public interface IAuthService
     {
-        Task<Data.Models.User> Register(User user,Photo photo ,  string password);
-        Task<Data.Models.User> Login(string username, string password);
+        Task<User> Register(User user, Photo photo, string password);
+        Task<User> Login(string username, string password);
+        Task<bool> AddUserPhoto(Photo photo);
     }
 }

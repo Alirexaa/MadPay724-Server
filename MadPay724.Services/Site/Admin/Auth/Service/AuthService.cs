@@ -50,5 +50,16 @@ namespace MadPay724.Services.Site.Admin.Auth.Service
             return null;
 
         }
+
+        public async Task<bool> AddUserPhoto(Photo photo)
+        {
+            await _db.PhotoRepository.InsertAsync(photo);
+            if (await _db.SaveAsync())
+            {
+                return true;
+            }
+            return false;
+        }
+    
     }
 }
