@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MadPay724.Common.ErrorAndMessge;
+using MadPay724.Common.Helper.Interface;
 using MadPay724.Data.DatabaseContext;
 using MadPay724.Data.Dto.Site.Admin.User;
 using MadPay724.Data.Models;
@@ -7,7 +8,9 @@ using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.Auth.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -33,15 +36,21 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
         private readonly IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
         private readonly IMapper _mapper;
+        private readonly IUtilities _utilities;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService,
-            IConfiguration config,ILogger<AuthController> logger,IMapper mapper)
+            IConfiguration config, ILogger<AuthController> logger, IMapper mapper, IUtilities utilities, UserManager<User> userManager, SignInManager<User> signInManage)
         {
             _db = dbContext;
             _authService = authService;
             _config = config;
             _logger = logger;
             _mapper = mapper;
+            _utilities = utilities;
+            _userManager = userManager;
+            _signInManager = signInManage;
         }
 
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -96,19 +105,39 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
                     Code = "400",
                     Message = Resource.ErrorMessages.NoRegister,
                     Status = false,
-                    Title= Resource.ErrorMessages.Error
+                    Title = Resource.ErrorMessages.Error
                 });
             }
 
-            
+
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
 
-            var userFromRepo = await _authService.Login(userForLoginDto.UserName, userForLoginDto.Password);
-            if (userFromRepo == null)
+            var userFromRepo = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+            var result = await _signInManager.CheckPasswordSignInAsync(userFromRepo, userForLoginDto.Password, false);
+
+            if (result.Succeeded)
+            {
+                var appUser = await _userManager.Users.Include(p => p.Photos)
+                    .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.UserName.ToUpper());
+
+                var userForReturn = _mapper.Map<UserDetailDto>(appUser);
+
+                _logger.LogInformation($"user {userFromRepo.Name} - {userFromRepo.Id} logged in. ");
+
+                return Ok(new
+                {
+                    token = _utilities.GenerateJwtToken(appUser, userForLoginDto.IsRemember),
+                    userForReturn
+
+                });
+            }
+
+            else
+            {
                 return Unauthorized(new ReturnMessage()
                 {
                     Status = false,
@@ -117,29 +146,11 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
                     Code = "401"
 
                 });
+            }
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name,userFromRepo.UserName)
-            };
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-            var creds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDes = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = userForLoginDto.IsRemember ? DateTime.Now.AddDays(1) : DateTime.Now.AddHours(2),
-                SigningCredentials = creds
-            };
-            var tokenHandeler = new JwtSecurityTokenHandler();
-            var token = tokenHandeler.CreateToken(tokenDes);
 
-            _logger.LogInformation($"user {userFromRepo.Name} - {userFromRepo.Id} logged in. ");
 
-            return Ok(new
-            {
-                token = tokenHandeler.WriteToken(token)
-            });
+
         }
     }
 }
