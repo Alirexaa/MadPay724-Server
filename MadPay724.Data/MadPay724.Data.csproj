@@ -36,6 +36,7 @@
   <ItemGroup>
     <Folder Include="Dto\Api\" />
     <Folder Include="Dto\Site\App\" />
+    <Folder Include="Migrations\MadPayMigration\" />
   </ItemGroup>
 
   <ItemGroup>
