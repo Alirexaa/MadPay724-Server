@@ -23,10 +23,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace MadPay724.Presentation.Controllers.Site.Admin.V1
+namespace MadPay724.Presentation.Controllers.Site.User.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
-    [Route("site/admin/v1/[controller]")]
+    [Route("site/user/v1/[controller]")]
     [AllowAnonymous]
     [ApiController]
     public class AuthController : ControllerBase
@@ -37,11 +37,11 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
         private readonly ILogger<AuthController> _logger;
         private readonly IMapper _mapper;
         private readonly IUtilities _utilities;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<Data.Models.User> _userManager;
+        private readonly SignInManager<Data.Models.User> _signInManager;
 
         public AuthController(IUnitOfWork<MadpayDbContext> dbContext, IAuthService authService,
-            IConfiguration config, ILogger<AuthController> logger, IMapper mapper, IUtilities utilities, UserManager<User> userManager, SignInManager<User> signInManage)
+            IConfiguration config, ILogger<AuthController> logger, IMapper mapper, IUtilities utilities, UserManager<Data.Models.User> userManager, SignInManager<Data.Models.User> signInManage)
         {
             _db = dbContext;
             _authService = authService;
@@ -70,7 +70,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
                     Code = "409"
                 });
             }
-            var userToCreate = new User()
+            var userToCreate = new Data.Models.User()
             {
                 UserName = userForRegister.UserName,
                 Address = "",

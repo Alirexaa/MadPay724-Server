@@ -34,7 +34,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         //public async Task GetUsers_Unauthorized_User_Cant_GetUsers()
         //{
         //    //Arrange
-        //    var request = $"/site/admin/{UnitTestDataInput.SiteVersion}/user";
+        //    var request = $"/site/user/{UnitTestDataInput.SiteVersion}/user";
         //    //Act
         //    var response = await _client.GetAsync(request);
         //    //Assert
@@ -44,7 +44,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         //public async Task GetUsers_authorized_User_Can_GetUsers()
         //{
         //    //Arrange
-        //    var request = $"/site/admin/{UnitTestDataInput.SiteVersion}/user";
+        //    var request = $"/site/user/{UnitTestDataInput.SiteVersion}/user";
         //    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
         //AToken);
         //    //Act
@@ -59,7 +59,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
         {
             //Arrange
             string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
-            var request = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdAnotherUser;
+            var request = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdAnotherUser;
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             //Act
 
@@ -73,7 +73,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             //Act
-            var request = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/" + userIdHimSelf;
+            var request = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/" + userIdHimSelf;
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
             var response = await _client.GetAsync(request);
             //Assert
@@ -89,7 +89,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdAnotherUser,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdAnotherUser,
                 Body = UnitTestDataInput.userForUpdate
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -107,7 +107,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdHimSelf,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/" + UserIdHimSelf,
                 Body = UnitTestDataInput.userForUpdate
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -126,7 +126,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/" + userIdHimSelf,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/" + userIdHimSelf,
                 Body = UnitTestDataInput.userForUpdate_Fail_MoldelState
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -151,7 +151,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string UserIdAnotherUser = UnitTestDataInput.userUnLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdAnotherUser,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdAnotherUser,
                 Body = UnitTestDataInput.passwordForChange_CorrectOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -168,7 +168,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdHimSelf,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdHimSelf,
                 Body = UnitTestDataInput.passwordForChange_CorrectOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -188,7 +188,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string userIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + userIdHimSelf,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + userIdHimSelf,
                 Body = UnitTestDataInput.passwordForChange_Fail_ModelState
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);
@@ -214,7 +214,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             string UserIdHimSelf = UnitTestDataInput.userLoggedInId;
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdHimSelf,
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/user/ChangeUserPassword/" + UserIdHimSelf,
                 Body = UnitTestDataInput.passwordForChange_WrongOldPassword
             };
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AToken);

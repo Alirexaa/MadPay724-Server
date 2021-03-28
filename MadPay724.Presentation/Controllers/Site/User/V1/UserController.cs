@@ -18,11 +18,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MadPay724.Presentation.Controllers.Site.Admin.V1
+namespace MadPay724.Presentation.Controllers.Site.User.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
     //[ServiceFilter(typeof(LogFilter))]
-    [Route("site/admin/v1/[controller]")]
+    [Route("site/user/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -39,22 +39,6 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
             _logger = logger;
         }
 
-        //[AllowAnonymous]
-        [Authorize(Policy = "RequireUserRole")]
-        [HttpGet(Name = nameof(GetUsers))]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _db.UserRepository.GetManyAsync(null, null, "BankCards,Photos");
-            var usersToReturn = _mapper.Map<IEnumerable<UsersListDto>>(users);
-
-            //var collectionLink = Link.ToCollection(nameof(GetUsers));
-            //var collection = new Collection<UsersListDto>()
-            //{
-            //    Self = collectionLink,
-            //    Value = usersToReturn.ToArray()
-            //};
-            return Ok(usersToReturn);
-        }
         [HttpGet("{id}", Name = nameof(GetUser))]
         [ServiceFilter(typeof(UserCheckIdFilter))]
         public async Task<IActionResult> GetUser(string id)
@@ -121,26 +105,6 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 
 
         }
-
-
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[Route("GetProfileUser/{id}")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetProfileUser(string id)
-        //{
-        //    if (User.FindFirst(ClaimTypes.NameIdentifier).Value == id)
-        //    {
-        //        var user = await _db.UserRepository.GetManyAsync(p => p.Id == id, null, "Photos");
-        //        var userToRetun = _mapper.Map<UserDetailDto>(user.SingleOrDefault());
-        //        return Ok(userToRetun);
-        //    }
-        //    else
-        //    {
-        //        return Unauthorized();
-        //    }
-        //}
-
     }
 
 }

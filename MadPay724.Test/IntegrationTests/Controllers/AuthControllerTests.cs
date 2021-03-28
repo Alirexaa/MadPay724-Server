@@ -29,7 +29,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
                 Body = UnitTestDataInput.userForLogin_CanLogin
             };
             //Act
@@ -45,7 +45,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
                 Body = UnitTestDataInput.userForLogin_Cant_Login
             };
             //Act
@@ -62,7 +62,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/login",
                 Body = new UserForLoginDto
                 {
                     UserName = userName,
@@ -85,7 +85,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
                 Body = UnitTestDataInput.userForRegister_CantRegister_UserExist
             };
 
@@ -100,7 +100,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
                 Body = UnitTestDataInput.userForRegister_CanRegister
             };
 
@@ -116,7 +116,7 @@ namespace MadPay724.Test.IntegrationTests.Controllers
             //Arrange
             var request = new
             {
-                Url = $"/site/admin/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
+                Url = $"/site/user/{UnitTestDataInput.SiteAdminVersion}/Auth/register",
                 Body = new UserForRegisterDto
                 {
                     Name = "",

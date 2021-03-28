@@ -15,10 +15,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MadPay724.Presentation.Controllers.Site.Admin.V1
+namespace MadPay724.Presentation.Controllers.Site.User.V1
 {
     [ApiExplorerSettings(GroupName = "SiteApiV1")]
-    [Route("site/admin/v1/users/{userId}/photos")]
+    [Route("site/user/v1/users/{userId}/photos")]
     [ApiController]
     public class PhotoController : ControllerBase
     {

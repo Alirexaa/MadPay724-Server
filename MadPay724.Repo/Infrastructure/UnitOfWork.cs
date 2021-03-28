@@ -21,6 +21,7 @@ namespace MadPay724.Repo.Infrastructure
         private IUserRepository _userRepository;
         private IPhotoRepository _photoRepository;
         private ISettingRepository _settingRepository;
+        private IRoleRepository _roleRepository;
         public IUserRepository UserRepository
         {
             get
@@ -54,6 +55,18 @@ namespace MadPay724.Repo.Infrastructure
                     _settingRepository = new SettingRepository(_db);
                 }
                 return _settingRepository;
+            }
+        }
+
+        public IRoleRepository RoleRepository
+        {
+            get
+            {
+                if (_roleRepository == null)
+                {
+                    _roleRepository = new RoleRepository(_db);
+                }
+                return _roleRepository;
             }
         }
 

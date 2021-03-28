@@ -11,7 +11,7 @@ using Xunit;
 using System.Threading.Tasks;
 using MadPay724.Data.Models;
 using MadPay724.Data.Dto.Site.Admin.Photo;
-using MadPay724.Presentation.Controllers.Site.Admin.V1;
+using MadPay724.Presentation.Controllers.Site.User.V1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using MadPay724.Test.DataInput;

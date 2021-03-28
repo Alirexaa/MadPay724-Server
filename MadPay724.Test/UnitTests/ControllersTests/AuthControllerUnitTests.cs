@@ -1,5 +1,5 @@
 ﻿using MadPay724.Data.DatabaseContext;
-using MadPay724.Presentation.Controllers.Site.Admin.V1;
+using MadPay724.Presentation.Controllers.Site.User.V1;
 using MadPay724.Repo.Infrastructure;
 using MadPay724.Services.Site.Admin.Auth.Interface;
 using Microsoft.Extensions.Configuration;
@@ -70,7 +70,7 @@ namespace MadPay724.Test.UnitTests.ControllersTests
 
             _moqMapper.Setup(o => o.Map<UserDetailDto>(It.IsAny<User>())).Returns(UnitTestDataInput.userDetailDto);
 
-            _moqUtilities.Setup(o => o.GenerateJwtToken(It.IsAny<User>(), It.IsAny<bool>())).Returns(It.IsAny<string>());
+            _moqUtilities.Setup(o => o.GenerateJwtTokenAsync(It.IsAny<User>(), It.IsAny<bool>())).ReturnsAsync(It.IsAny<string>());
 
 
             //Act
