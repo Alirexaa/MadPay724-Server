@@ -71,7 +71,7 @@ namespace MadPay724.Services.Seed.Service
                     Address = "Street 1",
 
                 };
-                var result = _userManager.CreateAsync(adminUser).Result;
+                var result = _userManager.CreateAsync(adminUser,"123456789").Result;
                 if (result.Succeeded)
                 {
                     var admin = _userManager.FindByNameAsync("admin@maday724.com").Result;
@@ -87,7 +87,7 @@ namespace MadPay724.Services.Seed.Service
                     LastActive = DateTime.Now,
                     Address = "Street 1",
                 };
-                var resultblogger = _userManager.CreateAsync(bloggerUser).Result;
+                var resultblogger = _userManager.CreateAsync(bloggerUser, "123456789").Result;
                 if (resultblogger.Succeeded)
                 {
                     var blogger = _userManager.FindByNameAsync("blogger@maday724.com").Result;
@@ -103,7 +103,7 @@ namespace MadPay724.Services.Seed.Service
                     LastActive = DateTime.Now,
                     Address = "Street 1",
                 };
-                var resultBacker = _userManager.CreateAsync(BackerUser).Result;
+                var resultBacker = _userManager.CreateAsync(BackerUser, "123456789").Result;
                 if (resultBacker.Succeeded)
                 {
                     var backer = _userManager.FindByNameAsync("backer@maday724.com").Result;
@@ -120,7 +120,7 @@ namespace MadPay724.Services.Seed.Service
                     LastActive = DateTime.Now,
                     Address = "Street 1",
                 };
-                var resultAccountant = _userManager.CreateAsync(AccountantUser).Result;
+                var resultAccountant = _userManager.CreateAsync(AccountantUser, "123456789").Result;
                 if (resultAccountant.Succeeded)
                 {
                     var accountant = _userManager.FindByNameAsync("accountant@maday724.com").Result;

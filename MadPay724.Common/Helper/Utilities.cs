@@ -1,5 +1,6 @@
 ﻿using MadPay724.Common.Helper.Interface;
 using MadPay724.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -7,25 +8,35 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MadPay724.Common.Helper
 {
     public class Utilities : IUtilities
     {
         private readonly IConfiguration _config;
+        private readonly UserManager<User> _userManager;
 
-        public Utilities(IConfiguration config)
+        public Utilities(IConfiguration config, UserManager<User> userManager)
         {
             _config = config;
+            _userManager = userManager;
         }
 
-        public string GenerateJwtToken(User user, bool isRemember)
+        public async Task<string> GenerateJwtTokenAsync(User user, bool isRemember)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role,role));
+            }
+
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var creds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDes = new SecurityTokenDescriptor()

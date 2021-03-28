@@ -63,7 +63,7 @@ namespace MadPay724.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MadpayDbContext>(p=>p.UseSqlServer("Data Source=. ; Initial Catalog=MadPay724Db ; Integrated Security=True; MultipleActiveResultSets=True;  "));
+            services.AddDbContext<MadpayDbContext>(p => p.UseSqlServer("Data Source=. ; Initial Catalog=MadPay724Db ; Integrated Security=True; MultipleActiveResultSets=True;  "));
             services.AddMvc(config =>
             {
                 config.EnableEndpointRouting = false;
@@ -92,13 +92,13 @@ namespace MadPay724.Presentation
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(opt =>
-                {
-                    opt.Authority = "http://localhost:5000";
-                    opt.RequireHttpsMetadata = false;
-                    opt.ApiName = "MadPay724Api";
-                });
+            //services.AddAuthentication("Bearer")
+            //    .AddIdentityServerAuthentication(opt =>
+            //    {
+            //        opt.Authority = "http://localhost:5000";
+            //        opt.RequireHttpsMetadata = false;
+            //        opt.ApiName = "MadPay724Api";
+            //    });
 
 
             //services.AddControllers();
@@ -115,20 +115,33 @@ namespace MadPay724.Presentation
             //services.AddScoped<ILoggerFactory, LoggerFactory>();
             services.AddScoped<LogFilter>();
             services.AddScoped<UserCheckIdFilter>();
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(opt =>
-            //{
-            //    opt.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false,
-            //    };
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
 
-            //});
+            });
 
-            
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy=>policy.RequireRole("Admin"));
+                opt.AddPolicy("RequireUserRole", policy=>policy.RequireRole("User"));
+                opt.AddPolicy("RequireBlogerRole", policy => policy.RequireRole("Blogger"));
+                opt.AddPolicy("RequireAccountant", policy => policy.RequireRole("Accountant"));
+                opt.AddPolicy("RequireBacker", policy => policy.RequireRole("Backer"));
+                opt.AddPolicy("AccessBacking", policy => policy.RequireRole("Admin","Backer"));
+                opt.AddPolicy("AccessAccounting", policy => policy.RequireRole("Admin", "Accountant"));
+                opt.AddPolicy("AccessBlog", policy => policy.RequireRole("Admin", "Blogger"));
+
+             });
+
+
 
             //services.AddApiVersioning(opt=> {
             //    opt.ApiVersionReader = new MediaTypeApiVersionReader();

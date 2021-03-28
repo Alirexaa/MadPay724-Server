@@ -147,7 +147,7 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
 
                 return Ok(new
                 {
-                    token = _utilities.GenerateJwtToken(appUser, userForLoginDto.IsRemember),
+                    token = await _utilities.GenerateJwtTokenAsync(appUser, userForLoginDto.IsRemember),
                     userForReturn
 
                 });

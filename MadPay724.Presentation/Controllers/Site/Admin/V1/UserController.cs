@@ -39,7 +39,8 @@ namespace MadPay724.Presentation.Controllers.Site.Admin.V1
             _logger = logger;
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Policy = "RequireUserRole")]
         [HttpGet(Name = nameof(GetUsers))]
         public async Task<IActionResult> GetUsers()
         {

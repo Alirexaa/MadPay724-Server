@@ -13,9 +13,9 @@ namespace MadPay724.Test.DataInput
         public static readonly string SiteAdminVersion = "V1";
         public static readonly string aToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1NDY3Y2VlZS01MjE5LTQxYTItOGQzMS05OGEzYmY3Mjk1M2EiLCJ1bmlxdWVfbmFtZSI6InBvcGVjb3BlbGFuZEBiYXJrYXJhbWEuY29tIiwibmJmIjoxNjE2ODU2MjU1LCJleHAiOjE2MTY5NDI2NTUsImlhdCI6MTYxNjg1NjI1NX0.R9nNsqdwbTUDaAdVax9_YaitClBO3aAjQiSvjuhGBMM";
 
-        public static readonly string userLoggedInUserName = "popecopeland@barkarama.com";
+        public static readonly string userLoggedInUserName = "loveochoa@barkarama.com";
         public static readonly string userLoggedInPassword = "123456789";
-        public static readonly string userLoggedInId = "5467ceee-5219-41a2-8d31-98a3bf72953a";
+        public static readonly string userLoggedInId = "07bc3f0a-6bd4-4ba8-a246-b271f5a97d22";
         public static readonly string userLoggedInPhotoId = "7d1641a4-066b-40e4-ab5c-760536983554";
         public static readonly string userUnLoggedInId = "5a3a2a02-7bbf-41f1-b401-25e7be899d24asdsad";
 
@@ -92,7 +92,7 @@ namespace MadPay724.Test.DataInput
 
     public static readonly UserForLoginDto userForLogin_CanLogin = new UserForLoginDto
     {
-        UserName = "popecopeland@barkarama.com",
+        UserName = "loveochoa@barkarama.com",
         Password = "123456789"
     };
 
